@@ -1,16 +1,42 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
+using System.Collections.Generic;
 namespace BancoMorangao
 {
+    static void GravarArquivo( Cliente cliente)
+    {
+        Console.Write("Gravação iniciada");
+        try
+        {
+           StreamWriter sw= new StreamWriter("c\\5by5\\Test.txt");
+            foreach(Pessoa in agenda )
+            sw.WriteLine(cliente.CadastrarPessoa(cliente));
+            sw.Close();
+        }catch(Exception e)
+        {
+            Console.Write("Exception "+e.Message );
+        }
+    }
     internal class Program
     {
         static void Main(string[] args)
         {
-            Pessoa pessoa = new Pessoa();
+           
+          //  COMO FAZER VETOR DE CLIENTES
+           /* Pessoa []agenda = new Pessoa[3];
+            for (int i = 0; i < 3; i++)
+            {
+                agenda[i] = new Pessoa();
+            }*/
+           // Pessoa pessoa = new Pessoa();//classe abstrata, tenho q instanciar apenas as classes filhas, não as abstratas
             Cliente cliente = new Cliente();
+
             Funcionario funcionario = new Funcionario();
+
             Gerente gerente = new Gerente();
+
             CartaoCredito cartao = new CartaoCredito();
             int opc;
            
@@ -34,21 +60,19 @@ namespace BancoMorangao
                         break;
                     case 1://só cadastro
                         Console.WriteLine("Cadastramento iniciado: ");
-                        pessoa.CadastrarPessoa();
+                        //pessoa.CadastrarPessoa(pessoa);
                         Console.Write("Deseja Cadastrar 1-Cliente\n2-Funcionário");
                         int tipoPessoa = int.Parse(Console.ReadLine());
                         if (tipoPessoa == 1)
                         {
-                            cliente.SolicitarAberturaConta();
-                            Console.WriteLine("Aguarde, perfil em análise...");
-                            Thread.Sleep(2000);
-                            funcionario.VerificarTipoContaComBaseNaRenda(cliente);
-                            Console.Write("Aguarde, gerente analisando sua solicitação");
+                            cliente.CadastrarPessoa(cliente);
+                            cliente.SolicitarAberturaConta(cliente);
+                          
                         }
                         if (tipoPessoa == 2)
                         {
-                            funcionario.CadastrarFuncionario();
-                            funcionario.VerificarTipoFuncionario();
+                            funcionario.CadastrarPessoa(funcionario);
+                            funcionario.VerificarTipoFuncionario(funcionario);
                         }
                         break;
                     case 2:
@@ -56,7 +80,7 @@ namespace BancoMorangao
                         int op = int.Parse(Console.ReadLine());
                         if (op == 1)
                         {
-                            pessoa.ImprimirPessoa(pessoa);
+                            cliente.ImprimirPessoa(cliente);
                         }
                         else
                         {

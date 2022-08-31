@@ -17,9 +17,9 @@ namespace BancoMorangao
         {
             Funcionario funcionario = new Funcionario();
             Cliente cliente = new Cliente();
+
             if (funcionario.VerificarTipoContaComBaseNaRenda(cliente) == true)
             {
-
                 Thread.Sleep(1000);
                 Console.Write(".");
                 Thread.Sleep(1000);

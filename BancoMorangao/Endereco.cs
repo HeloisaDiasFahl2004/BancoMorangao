@@ -18,20 +18,29 @@ namespace BancoMorangao
         {
 
         }
+        public Endereco(string rua, int numero, string bairro, string cidade, string estado)
+        {
+            Rua = rua;
+            Numero = numero;
+            Bairro = bairro;
+            Cidade = cidade;
+            Estado = estado;
+
+        }
         public void CadastrarEndereco()
         {
             Console.Write("Informe sua rua: ");
-            Rua = (Console.ReadLine());
+            this.Rua = (Console.ReadLine());
             Console.Write("Informe seu numero: ");
-            Numero = int.Parse(Console.ReadLine());
+            this.Numero = int.Parse(Console.ReadLine());
             Console.Write("Informe seu bairro: ");
-            Bairro = Console.ReadLine();
+            this.Bairro = Console.ReadLine();
             Console.Write("Informe sua cidade: ");
-            Cidade = Console.ReadLine();
+            this.Cidade = Console.ReadLine();
             Console.Write("Informe seu estado: ");
-            Estado = Console.ReadLine();
+            this.Estado = Console.ReadLine();
         }
-        public void ImprimirEndereco(Pessoa pessoa)
+        public void ImprimirEndereco()
         {
             Console.Write("\nRua: " + this.Rua + "\nNumero: " + this.Numero + "\nBairro: " + this.Bairro + "\nCidade: " + this.Cidade + "\nEstado: " + this.Estado);
         }

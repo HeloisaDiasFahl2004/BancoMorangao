@@ -16,22 +16,20 @@ namespace BancoMorangao
         {
 
         }
-        public Funcionario(string nome, DateTime dataNascimento, long telefone, long cpf, long rg, string cargo, Agencia numeroAgencia) : base(nome, dataNascimento, telefone, cpf, rg)
-        {
-            Cargo = cargo;
-            this.numeroAgencia = new Agencia();
-        }
+        /* public Funcionario(string nome, DateTime dataNascimento, long telefone, long cpf, long rg, string cargo, Agencia numeroAgencia) : base(nome, dataNascimento, telefone, cpf, rg)
+         {
+             Cargo = cargo;
+             this.numeroAgencia = new Agencia();
+         }*/
 
-        public void CadastrarFuncionario()
+        public void VerificarTipoFuncionario(Funcionario funcionario)
         {
+            
+            Agencia agencia=new Agencia();
+            agencia.CadastrarAgencia();
             Console.Write("Informe seu cargo: ");
-            this.Cargo = Console.ReadLine().ToUpper();
-            Console.Write("Agencia");
-            Agencia numeroAgencia = new Agencia();
-            numeroAgencia.CadastrarAgencia();
-        }
-        public void VerificarTipoFuncionario()
-        {
+            Cargo = Console.ReadLine().ToUpper();
+
             if (Cargo == "GERENTE")
             {
                 Gerente gerente = new Gerente();
@@ -55,6 +53,15 @@ namespace BancoMorangao
             else
             {
                 Console.Write("Funcionário Normal");
+                Console.Write("O que deseja fazer: \n1-Verificar Solicitação de contas\n2-Verificar Solicitação de empréstimos\n");
+                int funcao = int.Parse(Console.ReadLine());
+                switch (funcao)
+                {
+                    case 1: 
+                        Cliente cliente = new Cliente();    
+                        funcionario.VerificarTipoContaComBaseNaRenda(cliente);
+                        break;
+                }
             }
         }
         public bool VerificarTipoContaComBaseNaRenda(Cliente cliente)
@@ -63,8 +70,10 @@ namespace BancoMorangao
             double rendaNormal = 1000;
             int perfil;
 
-            if (cliente.SolicitarAberturaConta() == true)
+            if (cliente.SolicitarAberturaConta(cliente) == true)
             {
+                
+               
                 if ((cliente.Renda <= rendaUni) && (cliente.Estudante.Equals("SIM")))
                 {
                     Console.Write("Perfil cliente está de acordo com o cliente universitário(1)");
@@ -123,7 +132,7 @@ namespace BancoMorangao
                     Console.WriteLine("Empréstimo aguardando aprovação do gerente");
                     return true;
                 }
-                else 
+                else
                 {
                     Console.WriteLine("Pedido não realizado! Não está de acordo com os requisitos pré estabelecidos");
                     return false;
