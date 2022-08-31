@@ -31,9 +31,10 @@ namespace BancoMorangao
 
         }
 
-
+        int i = 0;
         public void CadastrarPessoa()
         {
+             i = 0;
             Console.Write("Informe seu nome: ");
             this.Nome = Console.ReadLine();
             Console.Write("Informe sua data de nascimento: ");
@@ -47,16 +48,25 @@ namespace BancoMorangao
             this.Cpf = long.Parse(Console.ReadLine());
             Console.Write("Informe seu RG: ");
             this.Rg = long.Parse(Console.ReadLine());
+            i++;
         }
         public void ImprimirPessoa(Pessoa pessoa)
         {
-            Console.Write("\nNome: " + this.Nome);
-            Console.Write("\nData Nascimento: " + this.DataNascimento);
-            Console.Write("\nEndereço ");
-            pessoa.endereco.ImprimirEndereco(pessoa);
-            Console.Write("\nTelefone: " + this.Telefone);
-            Console.Write("\nCPF: " + this.Cpf);
-            Console.Write("\nRG: " + this.Rg);
+            if (i < 1)
+            {
+                Console.WriteLine("Não há cadastramento ainda!");
+            }
+            else{
+                if(i >=1)
+                Console.Write("\nNome: " + this.Nome);
+                Console.Write("\nData Nascimento: " + this.DataNascimento);
+                Console.Write("\nEndereço ");
+                endereco = new Endereco();
+                pessoa.endereco.ImprimirEndereco(pessoa);
+                Console.Write("\nTelefone: " + this.Telefone);
+                Console.Write("\nCPF: " + this.Cpf);
+                Console.Write("\nRG: " + this.Rg);
+            }
         }
 
     }

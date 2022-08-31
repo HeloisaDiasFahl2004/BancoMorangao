@@ -11,19 +11,26 @@ namespace BancoMorangao
             Cliente cliente = new Cliente();
             Funcionario funcionario = new Funcionario();
             Gerente gerente = new Gerente();
+            CartaoCredito cartao = new CartaoCredito();
             int opc;
-            string perfil = "";
+           
             do
             {
                 Console.Write("\t>>> Menu <<<\t");
-                Console.WriteLine("\nO-Sair \n1-Cadastrar\n2-Imprimir\n3-Solicitar Empréstimo\n4-Verificar Aprovação\n");
+                Console.WriteLine("\nO-Sair \n1-Cadastrar\n2-Imprimir\n3-Solicitar Empréstimo\n4-Verificar Aprovação\n5-Desbloquear Cartão Crédito\n6-Parcelar Fatura\n");
                 Console.Write("Escolha uma opção: ");
                 opc = int.Parse(Console.ReadLine());
                 switch (opc)
                 {
                     case 0://sair
-                        Console.WriteLine("Saindo");
-                        Console.ReadKey();
+                        Console.Write("Saindo");
+                        Thread.Sleep(500);
+                        Console.Write(" .");
+                        Thread.Sleep(500);
+                        Console.Write(" .");
+                        Thread.Sleep(500);
+                        Console.Write(" .");
+                        Thread.Sleep(500);
                         break;
                     case 1://só cadastro
                         Console.WriteLine("Cadastramento iniciado: ");
@@ -42,6 +49,25 @@ namespace BancoMorangao
                         {
                             funcionario.CadastrarFuncionario();
                             funcionario.VerificarTipoFuncionario();
+                        }
+                        break;
+                    case 2:
+                        Console.Write("Deseja imprimir seu cadastro? \n1-SIM\n2-NÃO\n");
+                        int op = int.Parse(Console.ReadLine());
+                        if (op == 1)
+                        {
+                            pessoa.ImprimirPessoa(pessoa);
+                        }
+                        else
+                        {
+                            if (op == 2)
+                            {
+                                Console.Write("Impressão cancelada!");
+                            }
+                            else
+                            {
+                                Console.Write("Opção inválida!");
+                            }
                         }
                         break;
                     case 3://pede emprestimo
@@ -71,13 +97,21 @@ namespace BancoMorangao
                             }
                         }
                         break;
+                    case 5:
+
+                        cartao.DesbloquearBloquear();
+                        break;
+                    case 6:
+
+                        cartao.ParcelarFaturas();
+                        break;
                 }
 
             } while (opc != 0);
 
 
 
-            
+
 
 
 

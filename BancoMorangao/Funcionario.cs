@@ -57,11 +57,11 @@ namespace BancoMorangao
                 Console.Write("Funcionário Normal");
             }
         }
-        public void VerificarTipoContaComBaseNaRenda(Cliente cliente)
+        public bool VerificarTipoContaComBaseNaRenda(Cliente cliente)
         {
             double rendaUni = 1000;
             double rendaNormal = 1000;
-            int perfil = 0;
+            int perfil;
 
             if (cliente.SolicitarAberturaConta() == true)
             {
@@ -69,6 +69,7 @@ namespace BancoMorangao
                 {
                     Console.Write("Perfil cliente está de acordo com o cliente universitário(1)");
                     perfil = 1;
+                    return true;
                 }
                 else
                 {
@@ -76,14 +77,17 @@ namespace BancoMorangao
                     {
                         Console.Write("Perfil cliente está de acordo com o cliente normal(2)");
                         perfil = 2;
+                        return true;
                     }
                     else
                     {
                         Console.Write("Perfil cliente está de acordo com o cliente VIP(3)");
                         perfil = 3;
+                        return true;
                     }
                 }
             }
+            return false;
         }
         public bool VerificarEmprestimo(Cliente cliente)
         {

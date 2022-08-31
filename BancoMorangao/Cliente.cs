@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BancoMorangao
@@ -75,6 +76,8 @@ namespace BancoMorangao
             {
                 case 1:
                     Console.Write("Solicitação de desbloqueio de cartão encaminhada!");
+                    Thread.Sleep(2000);
+                    Console.Write("\nDesbloqueio realizado!");
                     return true;
                     break;
                 case 2:

@@ -15,7 +15,21 @@ namespace BancoMorangao
         }
         public void AprovarAberturaConta()
         {
-            Console.Write("Abertura realizada!");
+            Funcionario funcionario = new Funcionario();
+            Cliente cliente = new Cliente();
+            if (funcionario.VerificarTipoContaComBaseNaRenda(cliente) == true)
+            {
+
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.Write(" .");
+                Thread.Sleep(1000);
+                Console.Write(" .");
+                Thread.Sleep(1000);
+                Console.Write("\nAbertura realizada!");
+            }
+           
         }
         public void AprovarEmprestimo()
         {
@@ -27,10 +41,11 @@ namespace BancoMorangao
                 Thread.Sleep(1000);
                 Console.Write(".");
                 Thread.Sleep(1000);
-                Console.Write(".");
+                Console.Write(" .");
                 Thread.Sleep(1000);
-                Console.Write(".");
-                Console.Write("Empréstimo realizado!");
+                Console.Write(" .");
+                Thread.Sleep(1000);
+                Console.Write("\nEmpréstimo realizado!");
             }
                
         }
