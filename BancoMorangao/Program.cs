@@ -5,7 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 namespace BancoMorangao
 {
-    static void GravarArquivo( Cliente cliente)
+   /* static void GravarArquivo( Cliente cliente)
     {
         Console.Write("Gravação iniciada");
         try
@@ -18,7 +18,7 @@ namespace BancoMorangao
         {
             Console.Write("Exception "+e.Message );
         }
-    }
+    }*/
     internal class Program
     {
         static void Main(string[] args)
@@ -35,15 +35,13 @@ namespace BancoMorangao
 
             Funcionario funcionario = new Funcionario();
 
-            Gerente gerente = new Gerente();
-
             CartaoCredito cartao = new CartaoCredito();
             int opc;
            
             do
             {
                 Console.Write("\t>>> Menu <<<\t");
-                Console.WriteLine("\nO-Sair \n1-Cadastrar\n2-Imprimir\n3-Solicitar Empréstimo\n4-Verificar Aprovação\n5-Desbloquear Cartão Crédito\n6-Parcelar Fatura\n");
+                Console.WriteLine("\nO-Sair \n1-Cadastrar\n2-Imprimir\n3-Solicitar Empréstimo\n4-Verificar Aprovação \n5-Desbloquear Cartão Crédito\n6-Parcelar Fatura\n");
                 Console.Write("Escolha uma opção: ");
                 opc = int.Parse(Console.ReadLine());
                 switch (opc)
@@ -72,7 +70,7 @@ namespace BancoMorangao
                         if (tipoPessoa == 2)
                         {
                             funcionario.CadastrarPessoa(funcionario);
-                            funcionario.VerificarTipoFuncionario(funcionario);
+                            funcionario.AnalisarSolicitacaoAberturaConta(cliente);//Problema
                         }
                         break;
                     case 2:
@@ -99,7 +97,7 @@ namespace BancoMorangao
                         funcionario.VerificarEmprestimo(cliente);
                         if (funcionario.VerificarEmprestimo(cliente) == true)
                         {
-                            gerente.AprovarEmprestimo();
+                            funcionario.AprovarEmprestimo();
                         }
                         break;
                     case 4:
@@ -107,13 +105,25 @@ namespace BancoMorangao
                         int opcao = int.Parse(Console.ReadLine());
                         if (opcao == 1)
                         {
-                            gerente.AprovarAberturaConta();
+                            
+                            funcionario.AnalisarSolicitacaoAberturaConta(cliente);
+                            Console.Write("Você é funcionário?(SIM/NÃO)");
+                            string resposta = Console.ReadLine().ToUpper();
+                            if (resposta == "SIM")
+                            {
+
+                                funcionario.AtivarConta();
+                            }
+                            else
+                            {
+                                Console.Write("Área restrita para funcionários!");
+                            }
                         }
                         else
                         {
                             if (opcao == 2)
                             {
-                                gerente.AprovarEmprestimo();
+                                funcionario.AprovarEmprestimo();
                             }
                             else
                             {

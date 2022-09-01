@@ -8,7 +8,8 @@ namespace BancoMorangao
 {
     internal class Agencia
     {
-        int NumeroAgencia { get; set; }
+        int []NumeroAgencia=new int[2] ;//criei um vetor de agencias
+        int i;
         Endereco endereco;
         public Agencia()
         {
@@ -16,17 +17,19 @@ namespace BancoMorangao
         }
         public Agencia(int numeroAgencia)
         {
-            NumeroAgencia= numeroAgencia;
+            
             this.endereco= new Endereco();//instancio o objeto
         }
-        public void CadastrarAgencia()
-        {
-            Console.Write("Informe o numero da agência: ");
-            this.NumeroAgencia = int.Parse(Console.ReadLine());
-            Console.Write("Endereço ");
-            Endereco endereco = new Endereco();
-            endereco.CadastrarEndereco();
-        }
-
+       public void CadastrarAgencia()
+       {
+            for (i = 0; i < NumeroAgencia.Length; i++)
+            {
+                NumeroAgencia[i] = (i+1);
+                Console.Write("Endereço ");
+                Endereco endereco = new Endereco();
+                endereco.CadastrarEndereco();
+            }
+       }
+       
     }
 }

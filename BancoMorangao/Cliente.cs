@@ -23,24 +23,25 @@ namespace BancoMorangao
             Perfil = perfil;
             Estudante = estudante;
         }*/
+        
         public bool SolicitarAberturaConta(Cliente cliente)
         {
 
             Console.Write("Deseja solicitar a abertura de uma conta? \n1-SIM\n2-NÃO");
             int resp = int.Parse(Console.ReadLine());
-            Console.Write("Renda: ");
-            cliente.Renda = double.Parse(Console.ReadLine());
-            Console.Write("Estudante(SIM/NÃO) ");
-            cliente.Estudante = Console.ReadLine().ToUpper();
-            Console.Write("Perfil(Univesritário,Normal,Vip): ");
-            cliente.Perfil = Console.ReadLine();
-
+           
             switch (resp)
             {
                 case 1:
+                    Console.Write("Renda: ");
+                    cliente.Renda = double.Parse(Console.ReadLine());
+                    Console.Write("Estudante(SIM/NÃO) ");
+                    cliente.Estudante = Console.ReadLine().ToUpper();
+                    Console.Write("Perfil(Univesritário,Normal,Vip): ");
+                    cliente.Perfil = Console.ReadLine();
+
                     Console.Write("Solicitação de abertura de conta encaminhada!");
                     return true;
-
                     break;
                 case 2:
                     Console.Write("Solicitação de abertura de conta não realizada!");
@@ -51,6 +52,7 @@ namespace BancoMorangao
                     return false;
                     break;
             }
+           
         }
         public bool SolicitarEmprestimo()
         {
