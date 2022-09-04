@@ -18,14 +18,28 @@ namespace BancoMorangao
 
         }
      
-        public void DesbloquearBloquear()
+       public void DesbloquearBloquear()
         {
             Cliente cliente = new Cliente();
             cliente.SolicitarDesbloquearCartao();
-        }
-        public void ConsultarLimiteCartao()
+       }
+        public void ConsultarLimiteCartao(Cliente cliente)
         {
-            Console.Write(Limite);
+            Console.Write("Informe o tipo de conta(1-Universitária 2-Normal 3-Vip)");
+            int TipoConta = int.Parse(Console.ReadLine());
+            if (TipoConta == 1)
+            {
+                Limite = 600;
+            }
+            if(TipoConta == 2)
+            {
+                Limite = 800;
+            }
+            if (TipoConta == 3)
+            {
+                Limite = 50000;
+            }
+            Console.Write("Limite Cartão Crédito" + Limite);
         }
         public void ConsultarFaturaCartao()
         {
@@ -33,9 +47,9 @@ namespace BancoMorangao
         }
         public void ParcelarFaturas()
         {
-            Console.Write("Deseja parcelar a fatura?(SIM/NÃO)");
-            string resp = Console.ReadLine().ToUpper();
-            if(resp== "SIM")
+            Console.Write("Deseja parcelar a fatura?\n1-SIM\n2-NÃO");
+            int resp = int.Parse(Console.ReadLine());
+            if(resp== 1)
             {
                 Console.Write("Em quantas vezes? ");
                 int vezesParc = int.Parse(Console.ReadLine());
@@ -43,7 +57,7 @@ namespace BancoMorangao
             }
             else
             {
-                if (resp == "NÃO")
+                if (resp == 2)
                 {
                     Console.Write("Operação cancelada!");
                 }
@@ -52,20 +66,25 @@ namespace BancoMorangao
         }
         public void PagarFatura()
         {
-            Console.Write("Deseja realizar o pagamento da fatura:(SIM/NÃO) ");
-            string resp=Console.ReadLine().ToUpper();
-            if (resp == "SIM")
+            Console.Write("Deseja realizar o pagamento da fatura:\n 1-SIM\n2-NÃO ");
+            int resp=int.Parse(Console.ReadLine());
+            if (resp == 1)
             {
                 Console.Write("Pagamento Realizado");
             }
             else
             {
-                if (resp == "NÃO")
+                if (resp == 2)
                 {
                     Console.Write("Operação cancelada!");
                 }
                 else Console.Write("Opção inválida!");
             }
         }
+
+       
+        
+
+
     }
 }
