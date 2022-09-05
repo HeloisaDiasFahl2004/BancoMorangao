@@ -10,13 +10,18 @@ namespace BancoMorangao
     {
         double LimiteChequeEspecial { get; set; }
         double Saldo { get; set; }
-       // double LimiteConta { get; set; }
+        List<double> depositoList { get; set; }
+        List<double> saqueList { get; set; }
+        List<double> tranferencialist { get; set; }
 
         public Corrente()
         {
-
+           depositoList = new List<double>();
+            saqueList = new List<double>();
+            tranferencialist = new List<double>();
         }
-        public void Sacar(int numConta)
+
+        public void Saque()
         {
             Console.Write("Informe quanto deseja sacar: ");
             double saque = double.Parse(Console.ReadLine());
@@ -34,46 +39,50 @@ namespace BancoMorangao
                 Saldo = Saldo - saque;
                 Console.Write("Saque efetuado!");
                 Console.WriteLine("Saldo" + Saldo);
+                saqueList.Add(saque);
             }
         }
-        public void Deposito(int numConta)
+        public bool Deposito()
         {
             Console.Write("Informe o valor que deseja depositar: ");
             double deposite = double.Parse(Console.ReadLine());
-            Corrente corrente = new Corrente();
-            corrente.ConsultarLimiteChequeEspecial();
-            Saldo = (Saldo + LimiteChequeEspecial) + deposite;
+            ConsultarLimiteChequeEspecial();
+            //  this.Saldo += (LimiteChequeEspecial + deposite);
+            Saldo += deposite;
+            depositoList.Add(deposite);
             Console.Write("Depósito efetuado!\n Saldo: " + Saldo);
+            return true;
         }
         public void ConsultarLimiteChequeEspecial()//Defino o limite da conta com base no perfil do cliente
         {
-            Console.Write("Informe o tipo de conta(1-Universitária 2-Normal 3-Vip)");
-            int TipoConta = int.Parse(Console.ReadLine());
-           // Conta conta = new Conta();
-          //  conta.TipoConta = Tipo;
-            if (TipoConta == 1)
+            if (LimiteChequeEspecial != 0)
             {
-                LimiteChequeEspecial = 100;
-                Console.Write("Saldo: " + (Saldo + LimiteChequeEspecial));
-            }
-            else
-            {
-                if (TipoConta == 2)
-                {
-                    LimiteChequeEspecial = 150;
-                   Console.Write("Saldo: " + (Saldo + LimiteChequeEspecial));
-                }
-               else if (TipoConta == 3)
-                {
-                    LimiteChequeEspecial = 10000;
-                   Console.Write("Saldo: " + (Saldo + LimiteChequeEspecial));
-                }
-                else
-                {
-                    Console.Write("Opção inválida!");
-                }
+                return;
             }
 
+                Console.Write("Informe o tipo de conta(1-Universitária 2-Normal 3-Vip)");
+                int TipoConta = int.Parse(Console.ReadLine());
+
+                if (TipoConta == 1)
+                {
+                    LimiteChequeEspecial = 100;
+
+                }
+                else if (TipoConta == 2)
+                {
+                    LimiteChequeEspecial = 150;
+                    //  Console.Write("Saldo: " + (Saldo + LimiteChequeEspecial));
+                }
+                else if (TipoConta == 3)
+                {
+                    LimiteChequeEspecial = 10000;
+                    // Console.Write("Saldo: " + (Saldo + LimiteChequeEspecial));
+                }
+                Saldo += LimiteChequeEspecial;
+                Console.Write("Saldo: " + Saldo);
+
+
+            
         }
         public void RealizarPagamento()
         {
@@ -83,16 +92,7 @@ namespace BancoMorangao
         {
 
         }
-        public void ConsultarEmprestimo()
-        {
-            Funcionario funcionario = new Funcionario();
-            if (funcionario.AprovarEmprestimo())
-            {
-                //Saldo = Saldo + empreste;
-            }
-        }
-
-        public void Transferir(int numConta)
+        public void Transfira(int numConta)
         {
             Console.Write("Informe o valor que deseja transferir: ");
             double deposite = double.Parse(Console.ReadLine());
@@ -110,24 +110,28 @@ namespace BancoMorangao
                 Console.WriteLine("Saldo Conta: " + numConta + " é: " + Saldo);
                 Console.Write("Informe o número da conta que deseja creditar: ");
                 int numContaCredite = int.Parse(Console.ReadLine());
-                //  corrente = new Corrente();
                 corrente.ConsultarLimiteChequeEspecial();
                 Saldo = Saldo + LimiteChequeEspecial;
                 Saldo = Saldo + deposite;
                 Console.Write("Saldo na conta " + numContaCredite + " é: " + Saldo);
+                tranferencialist.Add(deposite);
                 Console.Write("Transferência efetuada!");
+
             }
-         
+
 
 
         }
-
-        internal void VerSaldo()
+        public void VerSaldo()
         {
-            Corrente corrente = new Corrente();
-            corrente.ConsultarLimiteChequeEspecial();
-           //Saldo = (Saldo + LimiteChequeEspecial);
-         //   Console.Write("Saldo: " + Saldo);
+            ConsultarLimiteChequeEspecial();
+            Console.Write("Saldo: "+Saldo);
+        }
+        public void ConsultarExtrato()
+        {
+            Console.Write("\nDepositos: " + depositoList.Count);
+            Console.Write("\nSaques: " + saqueList.Count);
+            Console.Write("\nTransferências: " + tranferencialist.Count);
         }
     }
 }

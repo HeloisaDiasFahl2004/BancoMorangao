@@ -17,10 +17,9 @@ namespace BancoMorangao
         {
 
         }
-     
-       public void DesbloquearBloquear()
-        {
-            Cliente cliente = new Cliente();
+     //tenho q colocar como parametro o cliente já q vou ter uma lista de clientes?
+       public void DesbloquearBloquear(Cliente cliente)
+       {
             cliente.SolicitarDesbloquearCartao();
        }
         public void ConsultarLimiteCartao(Cliente cliente)
@@ -41,11 +40,11 @@ namespace BancoMorangao
             }
             Console.Write("Limite Cartão Crédito" + Limite);
         }
-        public void ConsultarFaturaCartao()
+        public void ConsultarFaturaCartao(Cliente cliente)
         {
             Console.Write(" Exibindo Fatura " + SaldoFaturas);//list
         }
-        public void ParcelarFaturas()
+        public void ParcelarFaturas(Cliente cliente)
         {
             Console.Write("Deseja parcelar a fatura?\n1-SIM\n2-NÃO");
             int resp = int.Parse(Console.ReadLine());
@@ -64,7 +63,7 @@ namespace BancoMorangao
                 else Console.Write("Opção inválida!");
             }
         }
-        public void PagarFatura()
+        public void PagarFatura(Cliente cliente)
         {
             Console.Write("Deseja realizar o pagamento da fatura:\n 1-SIM\n2-NÃO ");
             int resp=int.Parse(Console.ReadLine());
@@ -82,9 +81,6 @@ namespace BancoMorangao
             }
         }
 
-       
-        
-
-
     }
 }
+

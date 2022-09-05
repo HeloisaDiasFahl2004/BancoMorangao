@@ -66,7 +66,7 @@ namespace BancoMorangao
         }
         static void Main(string[] args)
         {
-            double Valor=0;
+            //  double Valor=0;
             //  COMO FAZER VETOR DE CLIENTES
             /* Pessoa []agenda = new Pessoa[3];
              for (int i = 0; i < 3; i++)
@@ -75,21 +75,39 @@ namespace BancoMorangao
              }*/
             // Pessoa pessoa = new Pessoa();//classe abstrata, tenho q instanciar apenas as classes filhas, não as abstratas
             Cliente cliente = new Cliente();
-            Funcionario funcionario = new Funcionario();
+            Abertura abertura = new Abertura();
+            Emprestimo emprestimo = new Emprestimo();
+            Funcionario funcionario = new Funcionario(emprestimo);
             CartaoCredito cartao = new CartaoCredito();
-            Conta conta = new Conta();
+           
+            Poupanca poupanca = new Poupanca();
+            Corrente corrente = new Corrente();
+            List<Cliente> clienteList = new List<Cliente>();
+            List<Funcionario> funcionarioList = new List<Funcionario>();
+            
+
             int opc = 0;
 
             do
             {
                 //Menu separado, 1 pro cliente e 1 pro funcionário
                 Console.Write("\n\t>>> Menu Geral <<<\t");
-                Console.Write("\nVocê é: 1-Cliente 2-Funcionário");
+                Console.Write("\nVocê é: 0-Sair\n1-Cliente \n2-Funcionário");
                 int sou = int.Parse(Console.ReadLine());
-                if (sou == 1)
+                if (sou == 0)
+                {
+                    Console.Write("Saindo");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                }
+                else if (sou == 1)
                 {
                     Console.Write("\t>>> Menu Cliente <<<\t");
-                    Console.WriteLine("\nO-Sair \n1-Cadastrar\n2-Imprimir\n3-Solicitar Empréstimo\n4-Verificar Aprovação \n5-Desbloquear Cartão Crédito\n6-Parcelar Fatura\n7-Consultar Saldo\n8-Efetuar Depósito\n9-Efetuar Transferência\n10-Efetuar Saque\n11-Consultar Limite Cartão Crédito\n12-Consultar fatura Cartão Crédito");
+                    Console.WriteLine("\nO-Sair \n1-Cadastrar\n2-Imprimir\n3-Solicitar Empréstimo\n4-Verificar Aprovação \n5-Desbloquear Cartão Crédito\n6-Parcelar Fatura\n7-Consultar Saldo\n8-Efetuar Depósito\n9-Efetuar Transferência\n10-Efetuar Saque\n11-Consultar Limite Cartão Crédito\n12-Consultar fatura Cartão Crédito\n13-Consultar Extrato");
                     Console.Write("Escolha uma opção: ");
                     opc = int.Parse(Console.ReadLine());
                     switch (opc)
@@ -105,18 +123,18 @@ namespace BancoMorangao
                             break;
                         case 1://só cadastro
                             Console.WriteLine("Cadastramento iniciado: ");
-                            //pessoa.CadastrarPessoa(pessoa);
-                            cliente.CadastrarPessoa(cliente);
-                            //   List<Cliente> clienteList = new List<Cliente>();
-                            // clienteList.Add(cliente);
+
+                            cliente.CadastrarPessoa();
+
+                            clienteList.Add(cliente);
                             Console.Write("Deseja solicitar abertura de conta?\n1-SIM\n2-NÃO) ");
                             int abre = int.Parse(Console.ReadLine());
                             if (abre == 1)
                             {
-                                cliente.SolicitarAberturaConta(cliente);
+                                cliente.SolicitarAberturaConta();
 
-                               // Gravar_Arquivo(cliente);
-                              // Ler_Cliente_Arquivo();
+                                // Gravar_Arquivo(cliente);
+                                // Ler_Cliente_Arquivo();
                             }
                             else
                             {
@@ -136,9 +154,12 @@ namespace BancoMorangao
                             int op = int.Parse(Console.ReadLine());
                             if (op == 1)
                             {
-                                cliente.ImprimirPessoa(cliente);
-                                Console.WriteLine("Renda: " + cliente.Renda+"\nTipo de conta: " + cliente.tipoConta);
-                                //falta imprimir a renda e  tipo de conta
+                                if (clienteList.Count == 0)
+                                {
+                                    Console.Write("Não há clientes cadastrados");
+                                }
+                                cliente.ImprimirPessoa();
+                                cliente.ImprimirCliente();
                                 //Ler_Cliente_Arquivo();
                             }
                             else
@@ -158,7 +179,7 @@ namespace BancoMorangao
                             int empreste = int.Parse(Console.ReadLine());
                             if (empreste == 1)
                             {
-                                cliente.SolicitarEmprestimo(cliente);
+                                cliente.SolicitarEmprestimo(emprestimo);
                             }
                             else
                             {
@@ -170,15 +191,30 @@ namespace BancoMorangao
                             int opcao = int.Parse(Console.ReadLine());
                             if (opcao == 1)
                             {
+                                List<exp> conta = abertura.contasAbertas;//encontro o objeto q preciso
+
+                                abertura.contasAbertas.ForEach(el =>
+                                {
+                                    abertura.AlteraDescricao(el, "Aprovado");
+                                    Random numeroConta = new Random();
+                                    numeroConta.Next();
+                                    Conta conta = new Conta();
+                                    conta.NumeroConta = numeroConta.Next();
+                                    Agencia agencia = new Agencia();
+                                    Console.Write("Informe em qual agência deseja abrir: ");
+                                    int numero = agencia.ImprimirAgencia();
+                                    Console.Write("\nNumero conta: " + conta.NumeroConta + "\nAgencia: " + numero);
+                                });
                                 funcionario.AnalisarSolicitacaoAberturaConta(cliente);
-                                //funcionario.AprovarAberturaConta();
+                                //  funcionario.AprovarAberturaConta();
                             }
                             else
                             {
                                 if (opcao == 2)
                                 {
-                                    funcionario.VerificarEmprestimo(cliente);
-                                  //funcionario.AprovarEmprestimo();
+
+                                    List<teste> emp = funcionario.VerificarEmprestimo(cliente);
+                                    emp.ForEach(el => Console.WriteLine("Valor: " + el.valor + " Status: " + el.status));
                                 }
                                 else
                                 {
@@ -187,28 +223,84 @@ namespace BancoMorangao
                             }
                             break;
                         case 5:
-                            cartao.DesbloquearBloquear();
+                            cartao.DesbloquearBloquear(cliente);
                             break;
                         case 6:
-                            cartao.ParcelarFaturas();
+                            cartao.ParcelarFaturas(cliente);
                             break;
                         case 7:
-                            conta.ConsultarSaldo();
+                            Console.Write("Deseja consultar o saldo de qual conta\n1-Poupança\n2-Corrente");
+                            int cSaldo = int.Parse(Console.ReadLine());
+                            if (cSaldo == 1)
+                            {
+                                poupanca.VerSaldo();
+                            }
+                            else if (cSaldo == 2)
+                            {
+                                corrente.VerSaldo();
+                            }
+                            else
+                            {
+                                Console.Write("Opção inválida!");
+                            }
                             break;
                         case 8:
-                            conta.Depositar();
+                            Console.Write("Deseja depositar em qual conta\n1-Poupança\n2-Corrente");
+                            int cDep = int.Parse(Console.ReadLine());
+                            if (cDep == 1)
+                            {
+                                poupanca.Deposito();
+                            }
+                            else if (cDep == 2)
+                            {
+                                corrente.Deposito();
+                            }
+                            else
+                            {
+                                Console.Write("Opção inválida!");
+                            }
                             break;
                         case 9:
-                            conta.Transferir();
+                            Console.Write("Deseja transferir de qual conta\n1-Poupança\n2-Corrente");
+                            int cTransf = int.Parse(Console.ReadLine());
+                            if (cTransf == 1)
+                            {
+                                poupanca.VerSaldo();
+                            }
+                            else if (cTransf == 2)
+                            {
+                                corrente.VerSaldo();
+                            }
+                            else
+                            {
+                                Console.Write("Opção inválida!");
+                            }
                             break;
                         case 10:
-                            conta.Sacar();
+                            Console.Write("Deseja sacar de qual conta\n1-Poupança\n2-Corrente");
+                            int cSac = int.Parse(Console.ReadLine());
+                            if (cSac == 1)
+                            {
+                                poupanca.VerSaldo();
+                            }
+                            else if (cSac == 2)
+                            {
+                                corrente.VerSaldo();
+                            }
+                            else
+                            {
+                                Console.Write("Opção inválida!");
+                            }
                             break;
                         case 11:
                             cartao.ConsultarLimiteCartao(cliente);
                             break;
                         case 12:
-                            cartao.ConsultarFaturaCartao();
+                            cartao.ConsultarFaturaCartao(cliente);
+                            break;
+                        case 13:
+                            Console.Write("Consultando extrato da conta Corrente");
+                            corrente.ConsultarExtrato();
                             break;
                     }
                 }
@@ -230,22 +322,26 @@ namespace BancoMorangao
                                 Console.Write(" .");
                                 Thread.Sleep(200);
                                 Console.Write(" .");
-                            
                                 break;
-
                             case 1:
-                                funcionario.CadastrarPessoa(funcionario);
+                                funcionario.CadastrarPessoa();
                                 funcionario.CadastrarFuncionario();
-                               // List<Funcionario> funcionarioList = new List<Funcionario>();
-                               // funcionarioList.Add(funcionario);
+                                funcionarioList.Add(funcionario);
                                 break;
                             case 2:
                                 Console.Write("Deseja imprimir seu cadastro? \n1-SIM\n2-NÃO\n");
                                 int op = int.Parse(Console.ReadLine());
                                 if (op == 1)
                                 {
-                                    funcionario.ImprimirPessoa(funcionario);
-                                    funcionario.ImprimirFuncionario();
+                                    if (funcionarioList.Count == 0)
+                                    {
+                                        Console.Write("Não há clientes cadastrados");
+                                    }
+                                    else
+                                    {
+                                        funcionario.ImprimirPessoa();
+                                        funcionario.ImprimirFuncionario();
+                                    }
                                 }
                                 else
                                 {
@@ -260,8 +356,8 @@ namespace BancoMorangao
                                 }
                                 break;
                             case 3:
-                                if (funcionario.AnalisarSolicitacaoAberturaConta(cliente)) 
-                                { 
+                                if (funcionario.AnalisarSolicitacaoAberturaConta(cliente))
+                                {
                                     funcionario.AprovarAberturaConta();
                                 }
                                 else
@@ -270,14 +366,14 @@ namespace BancoMorangao
                                 }
                                 break;
                             case 4:
-                                funcionario.VerificarEmprestimo(cliente);
-                                if (funcionario.VerificarEmprestimo(cliente) )
+                                if (funcionario.VerificarEmprestimo(cliente) != null)
                                 {
-                                    funcionario.AprovarEmprestimo();
+                                    Console.Write("Verificação realizada");
+                                    funcionario.AprovarEmprestimo(cliente);
                                 }
                                 else
                                 {
-                                    Console.Write("Não há soicitações de empréstimo pendentes");
+                                    Console.Write("Não há solicitações de empréstimo pendentes");
                                 }
                                 break;
                         }
@@ -288,12 +384,7 @@ namespace BancoMorangao
                     }
                 }
             } while (opc != 0);
-
-
         }
-
-
-
     }
 }
 

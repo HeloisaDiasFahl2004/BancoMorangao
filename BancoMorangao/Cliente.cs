@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,44 +18,41 @@ namespace BancoMorangao
         {
 
         }
-
-        /*public Cliente(string nome, DateTime dataNascimento, long telefone, long cpf, long rg, double renda, string estudante, string perfil) : base(nome, dataNascimento, telefone, cpf, rg)
+        public void ImprimirCliente()
         {
-            Renda = renda;
-            Perfil = perfil;
-            Estudante = estudante;
-        }*/
-        
-        public bool SolicitarAberturaConta(Cliente cliente)
-        {
-                    Console.Write("Renda: ");
-                    cliente.Renda = double.Parse(Console.ReadLine());
-                    Console.Write("Estudante(SIM/NÃO) ");
-                    cliente.Estudante = Console.ReadLine().ToUpper();
-                    Console.Write("Perfil(1-Univesritário\n2-Normal\n3-Vip): ");
-                    cliente.Perfil = Console.ReadLine();
-
-                    Console.Write("Solicitação de abertura de conta encaminhada!");
-
-            //lista de solicitação de abertura de conta.add
-
-            Funcionario funcionario = new Funcionario();
-            funcionario.AnalisarSolicitacaoAberturaConta(cliente);
-
-           
-                    return true;
-        
+               Console.Write("\nRenda: " + this.Renda);
+               Console.Write("\nTipo Conta: " + this.tipoConta);
+    
         }
-        public bool SolicitarEmprestimo(Cliente cliente)
+        public bool SolicitarAberturaConta()
+        {
+            Console.Write("Renda: ");
+            this.Renda = double.Parse(Console.ReadLine());
+            Console.Write("Estudante(SIM/NÃO) ");
+           this.Estudante = Console.ReadLine().ToUpper();
+            Console.Write("Perfil(1-Univesritário\n2-Normal\n3-Vip): ");
+            this.Perfil = Console.ReadLine();
+
+            Console.Write("Solicitação de abertura de conta encaminhada!");
+
+            return true;
+
+        }
+        public bool SolicitarEmprestimo(Emprestimo emprestimo)
         {
             Console.WriteLine("Informe o valor do empréstimo: ");
-            double Valor = double.Parse(Console.ReadLine());
-            Console.WriteLine("Informe seu perfil: \n1-Universitário\n2-Normal\n3-VIP");
-           int tipoConta = int.Parse(Console.ReadLine());
-            //lista de solicitação de empréstimo.add
-
-            Console.Write("Solicitação de empréstimo encaminhada!");
+            double valor = double.Parse(Console.ReadLine());
            
+            Console.WriteLine("Informe seu perfil: \n1-Universitário\n2-Normal\n3-VIP");
+            int tipoConta = int.Parse(Console.ReadLine());
+
+           bool aprova=ValidaEmp(valor,tipoConta);
+            if (aprova)
+            {
+                //lista de solicitação de empréstimo.add
+                teste ajude = new teste(this, valor);
+                emprestimo.emprestimos.Add(ajude);
+            }
             return true;
         }
         public bool SolicitarDesbloquearCartao()
@@ -73,16 +71,50 @@ namespace BancoMorangao
                     Console.Write(" .");
                     Console.Write("\nDesbloqueio realizado!");
                     return true;
-                  
+
                 case 2:
                     Console.Write("Solicitação de desbloqueio de cartão não realizada");
                     return false;
-                  
+
                 default:
                     Console.Write("Opção inválida");
                     return false;
-                    
+
             }
+        }
+        private bool ValidaEmp(double valor,int tipoConta)
+        {
+            if ((valor < 500) && (tipoConta == 1))
+            {
+                Console.WriteLine("Empréstimo aguardando aprovação do gerente");
+                return true;
+            }
+            if ((valor > 500) && (tipoConta == 1))
+            {
+                Console.WriteLine("Pedido não realizado! Não está de acordo com os requisitos pré estabelecidos");
+                return false;
+            }
+            if ((valor < 500) && (tipoConta == 2))
+            {
+                Console.WriteLine("Empréstimo aguardando aprovação do gerente");
+                return true;
+            }
+            if ((valor > 500) && (tipoConta == 2))
+            {
+                Console.WriteLine("Pedido não realizado! Não está de acordo com os requisitos pré estabelecidos");
+                return false;
+            }
+            if ((valor < 50000) && (tipoConta == 3))
+            {
+                Console.WriteLine("Empréstimo aguardando aprovação do gerente");
+                return true;
+            }
+            if ((valor > 50000) && (tipoConta == 3))
+            {
+                Console.WriteLine("Pedido não realizado! Não está de acordo com os requisitos pré estabelecidos");
+                return false;
+            }
+            return false;
         }
 
     }

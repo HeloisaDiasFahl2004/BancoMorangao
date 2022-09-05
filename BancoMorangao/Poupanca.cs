@@ -10,12 +10,20 @@ namespace BancoMorangao
     {
         double Saldo { get; set; }
         double deposite;
+        List<double> depositoList { get; set; }
+        List<double> saqueList { get; set; }
+        List<double> tranferencialist { get; set; }
+
 
         public Poupanca()
         {
+            depositoList = new List<double>();
+            saqueList = new List<double>();
+            tranferencialist = new List<double>();
+
 
         }
-        public void Sacar(int numConta)
+        public void Saque()
         {
             Console.Write("Informe quanto deseja sacar: ");
             double saque = double.Parse(Console.ReadLine());
@@ -30,21 +38,23 @@ namespace BancoMorangao
                 Saldo = Saldo - saque;
                 Console.WriteLine("Saque efetuado! ");
                 Console.Write("Saldo: " + Saldo);
+                saqueList.Add(saque);
             }
         }
-        public bool Deposito(int numConta)
+        public bool Deposito()
         {
             Console.Write("Informe o valor que deseja depositar: ");
             deposite = double.Parse(Console.ReadLine());
             this.Saldo +=  deposite;
             Console.Write("Depósito efetuado!\n Saldo: " + Saldo);
+            depositoList.Add(deposite);
             return true;
         }
-
-        public void Transferir(int numConta)
+        public void Transfira(int numConta)
         {
             Console.Write("Informe o valor que deseja transferir: ");
             double deposite = double.Parse(Console.ReadLine());
+
             if (Saldo == 0 || Saldo < deposite)
             {
                 Console.Write("Saque indisponível!\n Motivo: saldo insuficiente!");
@@ -58,15 +68,22 @@ namespace BancoMorangao
                 int numContaCredite = int.Parse(Console.ReadLine());
                 Saldo = Saldo + deposite;
                 Console.Write("Saldo na conta " + numContaCredite + " é: " + Saldo);
+                tranferencialist.Add(deposite);
                 Console.Write("Transferência efetuada!");
+
             }
 
         }
-
         public void VerSaldo()
         {
-
+           
             Console.Write("Saldo: " + this.Saldo);
+        }
+        public void ConsultarExtrato()
+        {
+            Console.Write("\nDepositos: " + depositoList.Count);
+            Console.Write("\nSaques: " + saqueList.Count);
+            Console.Write("\nTransferências: " + tranferencialist.Count);
         }
 
     }
