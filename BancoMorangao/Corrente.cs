@@ -12,13 +12,13 @@ namespace BancoMorangao
         double Saldo { get; set; }
         List<double> depositoList { get; set; }
         List<double> saqueList { get; set; }
-        List<double> tranferencialist { get; set; }
+      //  List<double> tranferencialist { get; set; }
 
         public Corrente()
         {
            depositoList = new List<double>();
             saqueList = new List<double>();
-            tranferencialist = new List<double>();
+            //tranferencialist = new List<double>();
         }
 
         public void Saque()
@@ -38,7 +38,7 @@ namespace BancoMorangao
             {
                 Saldo = Saldo - saque;
                 Console.Write("Saque efetuado!");
-                Console.WriteLine("Saldo" + Saldo);
+                Console.WriteLine("Saldo: " + Saldo);
                 saqueList.Add(saque);
             }
         }
@@ -79,20 +79,21 @@ namespace BancoMorangao
                     // Console.Write("Saldo: " + (Saldo + LimiteChequeEspecial));
                 }
                 Saldo += LimiteChequeEspecial;
-                Console.Write("Saldo: " + Saldo);
-
-
-            
         }
-        public void RealizarPagamento()
+       /*public void RealizarPagamento()
         {
 
-        }
+        }*/
         public void RealizarEmprestimos()
         {
+            
+            Cliente cliente = new Cliente();
+          
 
-        }
-        public void Transfira(int numConta)
+           
+  
+        }        
+       /* public void Transfira()
         {
             Console.Write("Informe o valor que deseja transferir: ");
             double deposite = double.Parse(Console.ReadLine());
@@ -107,13 +108,13 @@ namespace BancoMorangao
             else
             {
                 Saldo = Saldo - deposite;
-                Console.WriteLine("Saldo Conta: " + numConta + " é: " + Saldo);
+                Console.WriteLine("Saldo Conta na conta que realizou a transferencia é: " + Saldo);
                 Console.Write("Informe o número da conta que deseja creditar: ");
                 int numContaCredite = int.Parse(Console.ReadLine());
                 corrente.ConsultarLimiteChequeEspecial();
                 Saldo = Saldo + LimiteChequeEspecial;
                 Saldo = Saldo + deposite;
-                Console.Write("Saldo na conta " + numContaCredite + " é: " + Saldo);
+                Console.Write("Saldo na conta que foi creditado é: " + Saldo);
                 tranferencialist.Add(deposite);
                 Console.Write("Transferência efetuada!");
 
@@ -121,7 +122,7 @@ namespace BancoMorangao
 
 
 
-        }
+        }*/
         public void VerSaldo()
         {
             ConsultarLimiteChequeEspecial();
@@ -131,7 +132,7 @@ namespace BancoMorangao
         {
             Console.Write("\nDepositos: " + depositoList.Count);
             Console.Write("\nSaques: " + saqueList.Count);
-            Console.Write("\nTransferências: " + tranferencialist.Count);
+           // Console.Write("\nTransferências: " + tranferencialist.Count);
         }
     }
 }

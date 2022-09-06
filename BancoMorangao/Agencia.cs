@@ -8,6 +8,7 @@ namespace BancoMorangao
 {
     internal class Agencia
     {
+        //criar listas de contas nessa agencia
         //int []NumeroAgencia=new int[2] ;//criei um vetor de agencias
         public int NumeroAgencia { get; set; }
         //Endereco endereco;
@@ -34,7 +35,6 @@ namespace BancoMorangao
                 Console.Write("Agencia 002");
                 Console.Write("Endereço: Rua dos Moranguetes\n N°250 \n Bairro:MorangoCentro \nCidade: Morangolândia\n Estado: Fadalândia");
             }
-            
        }
         public int ImprimirAgencia()
         {

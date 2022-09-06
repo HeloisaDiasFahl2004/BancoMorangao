@@ -14,27 +14,35 @@ namespace BancoMorangao
         public string Perfil { get; set; }
         public string Estudante { get; set; }
         public int tipoConta { get; set; }
+        public Agencia agencia { get; set; }
+        public Conta conta { get; set; }
         public Cliente()//já vem da classe mãe
         {
 
         }
         public void ImprimirCliente()
         {
-               Console.Write("\nRenda: " + this.Renda);
-               Console.Write("\nTipo Conta: " + this.tipoConta);
-    
+            Console.Write("\nRenda: " + this.Renda);
+            Console.Write("\nTipo Conta: " + this.tipoConta);
+
         }
-        public bool SolicitarAberturaConta()
+        public bool SolicitarAberturaConta(Abertura contaAberta)
         {
             Console.Write("Renda: ");
             this.Renda = double.Parse(Console.ReadLine());
             Console.Write("Estudante(SIM/NÃO) ");
-           this.Estudante = Console.ReadLine().ToUpper();
+            this.Estudante = Console.ReadLine().ToUpper();
             Console.Write("Perfil(1-Univesritário\n2-Normal\n3-Vip): ");
             this.Perfil = Console.ReadLine();
-
-            Console.Write("Solicitação de abertura de conta encaminhada!");
-
+            bool aceitaConta = AbreConta(this.Renda,this.Estudante);
+            if (aceitaConta)
+            {
+                //lista de aberturas de contas
+                exp abra = new exp(this);
+                contaAberta.contasAbertas.Add(abra); //atribuição por referencia, recebo objeto instanciado e só dentro da variavel recebo o valor
+                Console.Write("\nSolicitação de abertura de conta encaminhada!");
+            }
+            
             return true;
 
         }
@@ -42,11 +50,11 @@ namespace BancoMorangao
         {
             Console.WriteLine("Informe o valor do empréstimo: ");
             double valor = double.Parse(Console.ReadLine());
-           
+
             Console.WriteLine("Informe seu perfil: \n1-Universitário\n2-Normal\n3-VIP");
             int tipoConta = int.Parse(Console.ReadLine());
 
-           bool aprova=ValidaEmp(valor,tipoConta);
+            bool aprova = ValidaEmp(valor, tipoConta);
             if (aprova)
             {
                 //lista de solicitação de empréstimo.add
@@ -70,6 +78,7 @@ namespace BancoMorangao
                     Thread.Sleep(200);
                     Console.Write(" .");
                     Console.Write("\nDesbloqueio realizado!");
+                   
                     return true;
 
                 case 2:
@@ -82,9 +91,9 @@ namespace BancoMorangao
 
             }
         }
-        private bool ValidaEmp(double valor,int tipoConta)
+        private bool ValidaEmp(double valor, int tipoConta)//validações para fazer a solicitação
         {
-            if ((valor < 500) && (tipoConta == 1))
+            if ((valor <= 500) && (tipoConta == 1))
             {
                 Console.WriteLine("Empréstimo aguardando aprovação do gerente");
                 return true;
@@ -94,7 +103,7 @@ namespace BancoMorangao
                 Console.WriteLine("Pedido não realizado! Não está de acordo com os requisitos pré estabelecidos");
                 return false;
             }
-            if ((valor < 500) && (tipoConta == 2))
+            if ((valor <= 500) && (tipoConta == 2))
             {
                 Console.WriteLine("Empréstimo aguardando aprovação do gerente");
                 return true;
@@ -104,7 +113,7 @@ namespace BancoMorangao
                 Console.WriteLine("Pedido não realizado! Não está de acordo com os requisitos pré estabelecidos");
                 return false;
             }
-            if ((valor < 50000) && (tipoConta == 3))
+            if ((valor <= 50000) && (tipoConta == 3))
             {
                 Console.WriteLine("Empréstimo aguardando aprovação do gerente");
                 return true;
@@ -116,6 +125,32 @@ namespace BancoMorangao
             }
             return false;
         }
+        private bool AbreConta(double Renda, string Estudante)
+        {
+            if (this.Renda < 300 && this.Estudante.Equals("SIM"))
+            {
+                //tipo universitario
+                Console.Write("Conta universitária");
+                tipoConta = 1;
+                Console.Write("\nTipo de Conta: " + tipoConta);
 
+                return true;
+            }
+            else if (this.Renda < 300)
+            {
+                Console.Write("Conta normal");
+                tipoConta = 2;
+                Console.Write("\nTipo de Conta: " + tipoConta);
+                return true;
+            }
+            else if (this.Renda > 300)
+            {
+                Console.Write("Conta VIP");
+                tipoConta = 3;
+                Console.Write("\nTipo de Conta: " + tipoConta);
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -15,12 +15,15 @@ namespace BancoMorangao
         public string Cargo { get; set; }
         Emprestimo emprestimo { get; set; }
         Abertura abertura { get; set; }
-       int tipoConta;
-        // double Valor;
+     public Funcionario()
+        {
 
-        public Funcionario(Emprestimo emprestimo)
+        }
+
+        public Funcionario(Emprestimo emprestimo,Abertura abertura)
         {
             this.emprestimo = emprestimo;
+            this.abertura = abertura;
         }
         public void CadastrarFuncionario()
         {
@@ -67,50 +70,27 @@ namespace BancoMorangao
             }
             return false;
         }
-        public void AprovarAberturaConta()
+        public void AprovarAberturaConta()//altero descriçao, crio numero aleatorio, salvo na agencia de numero q ele escolher
         {
-           
             abertura.contasAbertas.ForEach(el => {
-                abertura.AlteraDescricao(el, "Aprovado");
+                abertura.AlteraDescricao(el, "Aprovado");//troca para aprovado todos os status ,lambda => função escrita em uma linha só
                 Random numeroConta = new Random();
                 numeroConta.Next();
-                Conta conta = new Conta();
+                Conta conta = new Conta();//cria instancia conta
                 conta.NumeroConta = numeroConta.Next();
-                Agencia agencia = new Agencia();
+                Agencia agencia = new Agencia();//crio instancia agencia
                 Console.Write("Informe em qual agência deseja abrir: ");
                 int numero = agencia.ImprimirAgencia();
+                agencia.NumeroAgencia = numero;
+                el.cliente.conta = conta;//associo a conta com o cliente, para a propriedade do cliente não ficar nula
+                el.cliente.agencia = agencia;//associo a agencia com o cliente,para a propriedade do cliente não ficar nula
                 Console.Write("\nNumero conta: " + conta.NumeroConta + "\nAgencia: " + numero);
-
             });
         }
-        public bool AnalisarSolicitacaoAberturaConta(Cliente cliente)
+        public exp AnalisarSolicitacaoAberturaConta(Cliente cliente)//cliente só tem 1 conta, logo não precisa retornar 1 lista.
         {
-            if (cliente.Renda < 300 && cliente.Estudante.Equals("SIM"))
-            {
-                //tipo universitario
-                Console.Write("Você se encaixa com a conta universitária");
-                tipoConta = 1;
-                Console.Write("\nTipo de Conta: " + tipoConta);
-                return true;
-            }
-            else if (cliente.Renda < 300 )
-            {
-                Console.Write("Você se encaixa com a conta normal");
-                tipoConta = 2;
-                Console.Write("\nTipo de Conta: " + tipoConta);
-                return true;
-            }
-            else if(cliente.Renda >300)
-            {
-                Console.Write("Você se encaixa com a conta VIP");
-                tipoConta = 3;
-                Console.Write("\nTipo de Conta: " + tipoConta);
-                return true;
-            }
-            return false;
-            // }
-
-
+            return abertura.contasAbertas.FirstOrDefault(conta => conta.cliente == cliente);//encontro o objeto q preciso
+        
         }
         public bool AprovarEmprestimo(Cliente cliente)
         {
@@ -120,7 +100,8 @@ namespace BancoMorangao
         }
         public List<teste> VerificarEmprestimo(Cliente cliente)
         {
-            return emprestimo.emprestimos.FindAll(emp => emp.cliente == cliente);
+            
+            return emprestimo.emprestimos.FindAll(emp => emp.cliente == cliente);//retorna lista com um filtro
         }
     }
 }
