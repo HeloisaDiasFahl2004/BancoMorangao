@@ -7,7 +7,6 @@ using static BancoMorangao.CartaoCredito;
 
 namespace BancoMorangao
 {
-
     internal class Program
     {
         static Cliente validarCliente(List<Cliente> clienteList)
@@ -31,7 +30,6 @@ namespace BancoMorangao
         }
         static void MenuCliente(Abertura abertura, Emprestimo emprestimo, Funcionario funcionario, CartaoCredito cartao, Poupanca poupanca, Corrente corrente, List<Cliente> clienteList, List<Funcionario> funcionarioList)
         {
-
             int opc;
             do
             {
@@ -60,16 +58,18 @@ namespace BancoMorangao
                             {
                                 Console.Write("Não há clientes cadastrados");
                             }
-                            for (int i = 0; i < clienteList.Count; i++)
+                            else
                             {
-                                Cliente cliente1 = clienteList[i];
-                                cliente1.ImprimirPessoa();
-                                cliente1.ImprimirCliente();
+                                Cliente cliente = validarCliente(clienteList);
+                              //  for (int i = 0; i < clienteList.Count; i++)
+                              //  {
+                                    //Cliente cliente1 = clienteList[i];
+                                    cliente.ImprimirPessoa();
+                                    cliente.ImprimirCliente();
+                                //}
                             }
-
-
+                        
                         }
-
                         else
                         {
                             if (op == 2)
@@ -99,7 +99,7 @@ namespace BancoMorangao
                     case 3:
                         Console.WriteLine("Verificar análise de: 1-Abertura Conta\n2-Empréstimo");
                         int opcao = int.Parse(Console.ReadLine());
-                        /*  if (opcao == 1)
+                    /*      if (opcao == 1)
                           {
                               exp conta = funcionario.AnalisarSolicitacaoAberturaConta(cliente);
 
@@ -202,8 +202,10 @@ namespace BancoMorangao
                         break;
                 }
             } while (opc != 0);
+            MenuGeral(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
+           
         }
-        static void CadastrarCliente(Abertura abertura,List<Cliente> clienteList)
+        static void CadastrarCliente(Abertura abertura, Emprestimo emprestimo, Funcionario funcionario, CartaoCredito cartao, Poupanca poupanca, Corrente corrente, List<Cliente> clienteList, List<Funcionario> funcionarioList)
         {
             Console.WriteLine("\nCadastramento iniciado: ");
 
@@ -229,7 +231,7 @@ namespace BancoMorangao
                     Console.Write("Resposta inválida!");
                 }
             }
-
+            MenuCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
 
         }
         static void CadastrarFuncionario(List<Funcionario> funcionarioList)
@@ -238,10 +240,8 @@ namespace BancoMorangao
             funcionario.CadastrarPessoa();
             funcionario.CadastrarFuncionario();
             funcionarioList.Add(funcionario);
-
         }
-        
-        static void MenuFuncionario(Funcionario funcionario,List<Funcionario> funcionarioList )
+        static void MenuFuncionario(Abertura abertura, Emprestimo emprestimo, Funcionario funcionario, CartaoCredito cartao, Poupanca poupanca, Corrente corrente, List<Cliente> clienteList, List<Funcionario> funcionarioList)
         {
             int opc;
             do
@@ -320,26 +320,16 @@ namespace BancoMorangao
                               break;*/
                 }
             } while (opc!= 0);
+            MenuGeral(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
         }
-    
-        static void Main(string[] args)
+        static void MenuGeral(Abertura abertura, Emprestimo emprestimo, Funcionario funcionario, CartaoCredito cartao, Poupanca poupanca, Corrente corrente, List<Cliente> clienteList, List<Funcionario> funcionarioList)
         {
-            //Cliente cliente = new Cliente();
-            Abertura abertura = new Abertura();
-            Emprestimo emprestimo = new Emprestimo();
-            Funcionario funcionario = new Funcionario(emprestimo, abertura);
-            CartaoCredito cartao = new CartaoCredito();
-            Poupanca poupanca = new Poupanca();
-            Corrente corrente = new Corrente();
-            List<Cliente> clienteList = new List<Cliente>();
-            List<Funcionario> funcionarioList = new List<Funcionario>();
             int opc = 0;
-
             do
             {
                 //Menu separado, 1 pro cliente e 1 pro funcionário
                 Console.Write("\n\t>>> Menu Geral <<<\t");
-                Console.Write("\nVocê é: 0-Sair\n1-Já sou Cliente\n 2-Quero ser Cliente \n3-Sou Funcionário \n4-Funcionário,primeiro acesso");
+                Console.Write("\nVocê é: 0-Sair\n1-Já sou Cliente\n 2-Quero ser Cliente \n3-Sou Funcionário \n4-Funcionário,Cadastre-se");
                 int sou = int.Parse(Console.ReadLine());
                 if (sou == 0)
                 {
@@ -354,7 +344,6 @@ namespace BancoMorangao
                 }
                 else if (sou == 1)
                 {
-
                     Cliente cliente = validarCliente(clienteList);
                     if (cliente == null)
                     {
@@ -365,7 +354,7 @@ namespace BancoMorangao
                         int cadResp = int.Parse(Console.ReadLine());
                         if (cadResp == 1)
                         {
-                            CadastrarCliente(abertura,clienteList);
+                            CadastrarCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
                             MenuCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
                         }
                         else
@@ -373,8 +362,6 @@ namespace BancoMorangao
                             Console.Write("\nFim do atendimento!");
                             Environment.Exit(0);
                         }
-
-
                     }
                     else
                     {
@@ -385,21 +372,36 @@ namespace BancoMorangao
                 {
                     if (sou == 2)
                     {
-                        CadastrarCliente(abertura,clienteList);
+                        CadastrarCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
                     }
-                    if (sou == 3)
+                    else if (sou == 3)
                     {
-                        MenuFuncionario(funcionario, funcionarioList);
+                        MenuFuncionario(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
+                    }
+                    else if (sou == 4)
+                    {
+                        CadastrarFuncionario(funcionarioList);
                     }
                     else
                     {
                         Console.WriteLine("Opção inválida!");
                     }
-
                 }
             } while (opc != 0);
 
         }
+        static void Main(string[] args)
+        {
+            //Cliente cliente = new Cliente();
+            Abertura abertura = new Abertura();
+            Emprestimo emprestimo = new Emprestimo();
+            Funcionario funcionario = new Funcionario(emprestimo, abertura);
+            CartaoCredito cartao = new CartaoCredito();
+            Poupanca poupanca = new Poupanca();
+            Corrente corrente = new Corrente();
+            List<Cliente> clienteList = new List<Cliente>();
+            List<Funcionario> funcionarioList = new List<Funcionario>();
+            MenuGeral(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
+        }
     }
 }
-
