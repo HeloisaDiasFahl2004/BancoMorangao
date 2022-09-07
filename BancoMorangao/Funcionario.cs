@@ -13,95 +13,77 @@ namespace BancoMorangao
 
         public Agencia agencia { get; set; }
         public string Cargo { get; set; }
-        Emprestimo emprestimo { get; set; }
-        Abertura abertura { get; set; }
-     public Funcionario()
-        {
-
-        }
-
-        public Funcionario(Emprestimo emprestimo,Abertura abertura)
-        {
-            this.emprestimo = emprestimo;
-            this.abertura = abertura;
+        //   Emprestimo emprestimo { get; set; }
+        //Abertura abertura { get; set; }
+        public Funcionario()
+        { 
         }
         public void CadastrarFuncionario()
         {
             Agencia agencia = new Agencia();
             Console.WriteLine("Cargo: NORMAL/GERENTE?");
             this.Cargo = Console.ReadLine();
-            agencia.CadastrarAgencia();
+            agencia.ImprimirAgencia();
         }
         public void ImprimirFuncionario()
         {
-                Console.Write("\nCargo: " + this.Cargo);
-                agencia = new Agencia();
-                Console.Write("\nAgencia:" + this.agencia);
-                agencia.ImprimirAgencia();
+            Console.Write("\nCargo: " + this.Cargo);
+            // agencia = new Agencia();
+            Console.Write("\nAgencia:001");
+            agencia.ImprimirAgencia();
         }
-        public bool VerificarTipoFuncionario(Cliente cliente)
+        public void AprovarAberturaConta( List<Espera>analiseList)//altero descriçao, crio numero aleatorio, salvo na agencia de numero q ele escolher OK
         {
-            bool emprestimoAprovado = false;
-            if (this.Cargo == "GERENTE")
-            {
-                Console.Write("Informe o que deseja fazer: \n1-Aprovar Contas \n2-Aprovar Empréstimos");
-                int funcGerente = int.Parse(Console.ReadLine());
-                if (funcGerente == 1)
-                {
-                    AprovarAberturaConta();
-                }
-                else
-                {
-                    if (funcGerente == 2)
-                    {
-                        AprovarEmprestimo(cliente);
-                    }
-                    else
-                    {
-                        Console.Write("Opção inválida!");
-                    }
+            Console.Write("Informe o nome do cliente que deseja realizar a aprovação da conta: ");
+            string nomeCliente=Console.ReadLine(); 
 
+            for (int i = 0; i < analiseList.Count; i++)
+            {
+                Espera analise = analiseList[i];
+                if (analise.descricao=="Em análise")
+                {
+                    analise.descricao = "Aprovado";
                 }
-                return emprestimoAprovado;
+            }
+           
+        }
+        public void AnalisarSolicitacaoAberturaConta(Cliente cliente)//cliente só tem 1 conta, logo não precisa retornar 1 lista.
+        {
+            if (AbreConta(cliente))
+            
+                return ;
+            
+            //return espera.contasAbertas.FirstOrDefault(conta => conta.cliente == cliente);//encontro o objeto q preciso, usei o first ao invés do find pq o cliente abre só uma conta
+
+        }
+       
+        public bool AbreConta(Cliente cliente)
+        {
+            int tipoConta ;
+            if (cliente.Renda < 300 && cliente.Estudante.Equals("SIM"))
+            {
+                //tipo universitario
+                Console.Write("Conta universitária");
+                tipoConta = 1;
+                Console.Write("\nTipo de Conta: " + tipoConta);
+
+                return true;
+            }
+            else if (cliente.Renda < 300)
+            {
+                Console.Write("Conta normal");
+                tipoConta = 2;
+                Console.Write("\nTipo de Conta: " + tipoConta);
+                return true;
             }
             else
             {
-                Console.WriteLine("Apenas gerente pode aprovar abertura de conta/solicitações de empréstimo");
-            }
-            return false;
-        }
-        public void AprovarAberturaConta()//altero descriçao, crio numero aleatorio, salvo na agencia de numero q ele escolher
-        {
-            abertura.contasAbertas.ForEach(el => {
-                abertura.AlteraDescricao(el, "Aprovado");//troca para aprovado todos os status ,lambda => função escrita em uma linha só
-                Random numeroConta = new Random();
-                numeroConta.Next();
-                Conta conta = new Conta();//cria instancia conta
-                conta.NumeroConta = numeroConta.Next();
-                Agencia agencia = new Agencia();//crio instancia agencia
-                Console.Write("Informe em qual agência deseja abrir: ");
-                int numero = agencia.ImprimirAgencia();
-                agencia.NumeroAgencia = numero;
-                el.cliente.conta = conta;//associo a conta com o cliente, para a propriedade do cliente não ficar nula
-                el.cliente.agencia = agencia;//associo a agencia com o cliente,para a propriedade do cliente não ficar nula
-                Console.Write("\nNumero conta: " + conta.NumeroConta + "\nAgencia: " + numero);
-            });
-        }
-        public exp AnalisarSolicitacaoAberturaConta(Cliente cliente)//cliente só tem 1 conta, logo não precisa retornar 1 lista.
-        {
-            return abertura.contasAbertas.FirstOrDefault(conta => conta.cliente == cliente);//encontro o objeto q preciso
-        
-        }
-        public bool AprovarEmprestimo(Cliente cliente)
-        {
-            List<teste> emp = emprestimo.emprestimos.FindAll(emp => emp.cliente == cliente);//encontro o objeto q preciso
-            emp.ForEach(el => emprestimo.AlteraStatus(el,"Aprovado") );
+                Console.Write("Conta VIP");
+                tipoConta = 3;
+                Console.Write("\nTipo de Conta: " + tipoConta);
                 return true;
-        }
-        public List<teste> VerificarEmprestimo(Cliente cliente)
-        {
-            
-            return emprestimo.emprestimos.FindAll(emp => emp.cliente == cliente);//retorna lista com um filtro
+            }
+
         }
     }
 }

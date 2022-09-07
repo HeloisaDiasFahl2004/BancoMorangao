@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BancoMorangao
 {
-    internal class CartaoCredito
+   /* internal class CartaoCredito
     {
         long NumeroCartao { get; set; }
         double Limite { get; set; } //vem já de acordo com o tipo conta
-       // public List<cartaoCredito> cartao { get; set; }
+                                    // public List<cartaoCredito> cartao { get; set; }
         public CartaoCredito()
         {
             //cartao = new List<cartaoCredito>();
@@ -19,7 +19,7 @@ namespace BancoMorangao
         public void Desbloquear(Cliente cliente)
         {
             cliente.SolicitarDesbloquearCartao();
-         
+
         }
         public void ConsultarLimiteCartao(Cliente cliente)
         {
@@ -106,4 +106,5 @@ namespace BancoMorangao
             }
           */
 
-    }
+    
+}

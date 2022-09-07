@@ -11,10 +11,9 @@ namespace BancoMorangao
     internal class Cliente : Pessoa
     {
         public double Renda { get; set; }
-        public string Perfil { get; set; }
         public string Estudante { get; set; }
         public int tipoConta { get; set; }
-        public Agencia agencia { get; set; }
+      
         public Conta conta { get; set; }
         public Cliente()//já vem da classe mãe
         {
@@ -26,27 +25,29 @@ namespace BancoMorangao
             Console.Write("\nTipo Conta: " + this.tipoConta);
 
         }
-        public bool SolicitarAberturaConta(Abertura contaAberta)
+        public void SolicitarAberturaConta()
         {
             Console.Write("Renda: ");
             this.Renda = double.Parse(Console.ReadLine());
             Console.Write("Estudante(SIM/NÃO) ");
             this.Estudante = Console.ReadLine().ToUpper();
-            Console.Write("Perfil(1-Univesritário\n2-Normal\n3-Vip): ");
-            this.Perfil = Console.ReadLine();
-            bool aceitaConta = AbreConta(this.Renda,this.Estudante);
-            if (aceitaConta)
-            {
-                //lista de aberturas de contas
-                exp abra = new exp(this);
-                contaAberta.contasAbertas.Add(abra); //atribuição por referencia, recebo objeto instanciado e só dentro da variavel recebo o valor
-                Console.Write("\nSolicitação de abertura de conta encaminhada!");
-            }
-            
-            return true;
+            Console.WriteLine("O gerente irá definir o tipo ideal de conta para você. ");
+         //   Console.Write("Perfil(1-Univesritário\n2-Normal\n3-Vip): ");
+         //   this.Perfil = Console.ReadLine();
+          
+            //bool aceitaConta = AbreConta(this.Renda,this.Estudante);
+            //if (aceitaConta)
+            //{
+            //    //lista de aberturas de contas
+            //    exp abra = new exp(this);
+            //    contaAberta.contasAbertas.Add(abra); //atribuição por referencia, recebo objeto instanciado e só dentro da variavel recebo o valor
+            //    Console.Write("\nSolicitação de abertura de conta encaminhada!");
+            //}
+            Console.Write("Solicitação encaminhada!");
+           
 
         }
-        public bool SolicitarEmprestimo(Emprestimo emprestimo)
+        /*public bool SolicitarEmprestimo(Emprestimo emprestimo)
         {
             Console.WriteLine("Informe o valor do empréstimo: ");
             double valor = double.Parse(Console.ReadLine());
@@ -91,7 +92,7 @@ namespace BancoMorangao
 
             }
         }
-        private bool ValidaEmp(double valor, int tipoConta)//validações para fazer a solicitação
+        private bool ValidaEmp(double valor, int tipoConta)//validações para fazer a solicitação 
         {
             if ((valor <= 500) && (tipoConta == 1))
             {
@@ -125,32 +126,6 @@ namespace BancoMorangao
             }
             return false;
         }
-        private bool AbreConta(double Renda, string Estudante)
-        {
-            if (this.Renda < 300 && this.Estudante.Equals("SIM"))
-            {
-                //tipo universitario
-                Console.Write("Conta universitária");
-                tipoConta = 1;
-                Console.Write("\nTipo de Conta: " + tipoConta);
-
-                return true;
-            }
-            else if (this.Renda < 300)
-            {
-                Console.Write("Conta normal");
-                tipoConta = 2;
-                Console.Write("\nTipo de Conta: " + tipoConta);
-                return true;
-            }
-            else if (this.Renda > 300)
-            {
-                Console.Write("Conta VIP");
-                tipoConta = 3;
-                Console.Write("\nTipo de Conta: " + tipoConta);
-                return true;
-            }
-            return false;
-        }
+       */
     }
 }

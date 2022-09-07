@@ -84,7 +84,7 @@ namespace BancoMorangao
         {
 
         }*/
-        public void RealizarEmprestimos()
+      /*  public void RealizarEmprestimos()
         {
             
             Cliente cliente = new Cliente();
@@ -92,7 +92,7 @@ namespace BancoMorangao
 
            
   
-        }        
+        }        */
        /* public void Transfira()
         {
             Console.Write("Informe o valor que deseja transferir: ");

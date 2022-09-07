@@ -10,7 +10,7 @@ namespace BancoMorangao
     {
         public int TipoConta { get; set; }// 1/2/3
         public int NumeroConta { get; set; }
-        CartaoCredito cartao;
+       // CartaoCredito cartao;
         public Conta()
         {
 
@@ -19,7 +19,7 @@ namespace BancoMorangao
         {
             TipoConta = tipoConta;
             NumeroConta = numeroConta;
-            this.cartao = new CartaoCredito();
+          // this.cartao = new CartaoCredito();
         }
     }
 
