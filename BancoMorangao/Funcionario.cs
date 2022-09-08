@@ -16,13 +16,12 @@ namespace BancoMorangao
         //   Emprestimo emprestimo { get; set; }
         //Abertura abertura { get; set; }
         public Funcionario()
-        { 
-        }
+        { }
         public void CadastrarFuncionario()
         {
             Agencia agencia = new Agencia();
             Console.WriteLine("Cargo: NORMAL/GERENTE?");
-            this.Cargo = Console.ReadLine();
+            this.Cargo = Console.ReadLine().ToUpper();
             agencia.ImprimirAgencia();
         }
         public void ImprimirFuncionario()
@@ -32,36 +31,19 @@ namespace BancoMorangao
             Console.Write("\nAgencia:001\n");
             agencia.ImprimirAgencia();
         }
-        public void AprovarAberturaConta( List<Espera>analiseList,List<Cliente>aprovadoList)//altero descriçao, crio numero aleatorio, salvo na agencia de numero q ele escolher OK
+        public void AprovarAberturaConta(List<Cliente> aprovadoList, Espera cliente)//altero descriçao, crio numero aleatorio, salvo na agencia de numero q ele escolher OK
         {
-            Console.Write("Informe o nome do cliente que deseja realizar a aprovação da conta: ");
-            string nomeCliente=Console.ReadLine(); 
-
-            for (int i = 0; i < analiseList.Count; i++)
+            if (cliente.descricao == "Em análise")
             {
-                Espera analise = analiseList[i];
-                if (analise.descricao=="Em análise")
-                {
-                    analise.descricao = "Aprovado";
-                    aprovadoList.Add(analise.cliente);
-                }
-            }
-           
-        }
-        public void AnalisarSolicitacaoAberturaConta(Espera cliente)//cliente só tem 1 conta, logo não precisa retornar 1 lista.
-        {
-
-            if (AbreConta(cliente))
+                cliente.descricao = "Aprovado";
+                aprovadoList.Add(cliente.cliente);
                
-                return ;
-            
-            //return espera.contasAbertas.FirstOrDefault(conta => conta.cliente == cliente);//encontro o objeto q preciso, usei o first ao invés do find pq o cliente abre só uma conta
-
+            }
         }
-       
-        public bool AbreConta(Espera cliente)
+        public int AnalisarSolicitacaoAberturaConta(Espera cliente)//cliente só tem 1 conta, logo não precisa retornar 1 lista.
         {
-            int tipoConta ;
+
+            int tipoConta;
             if (cliente.cliente.Renda < 300 && cliente.cliente.Estudante.Equals("SIM"))
             {
                 //tipo universitario
@@ -69,22 +51,23 @@ namespace BancoMorangao
                 tipoConta = 1;
                 Console.Write("\nTipo de Conta: " + tipoConta);
 
-                return true;
+                return tipoConta;
             }
             else if (cliente.cliente.Renda < 300)
             {
                 Console.Write("Conta normal");
                 tipoConta = 2;
                 Console.Write("\nTipo de Conta: " + tipoConta);
-                return true;
+                return tipoConta;
             }
             else
             {
                 Console.Write("Conta VIP");
                 tipoConta = 3;
                 Console.Write("\nTipo de Conta: " + tipoConta);
-                return true;
+                return tipoConta;
             }
+
 
         }
     }

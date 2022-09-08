@@ -4,14 +4,13 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Collections.Generic;
 //using static BancoMorangao.CartaoCredito;
-
 namespace BancoMorangao
 {
     internal class Program
     {
-        static Espera StatusConta(List<Espera> espera,string nome)
+        static Espera StatusConta(List<Espera> espera, string nome)
         {
-            foreach(Espera esperaItem in espera)
+            foreach (Espera esperaItem in espera)
             {
                 if (esperaItem.cliente.Nome == nome)
                 {
@@ -20,31 +19,30 @@ namespace BancoMorangao
             }
             return null;
         }
-        
         static Espera EsperaCliente(List<Espera> espera)
         {
-            foreach(Espera esperaItem in espera)
+            foreach (Espera esperaItem in espera)
             {
-                if(esperaItem != null)
+                if (esperaItem != null)
                 {
                     return esperaItem;
                 }
             }
             return null;
         }
-        static void Cliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente,List<Espera> esperaList)//Verifico se meu sliente e exite se não, volto pro menu geral OK
+        static void Cliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente, List<Espera> esperaList)//Verifico se meu sliente e exite se não, volto pro menu geral OK
         {
             Cliente cliente = ValidarCliente(clienteList);
             if (cliente == null)
             {
                 Console.Write("\nCliente não existe");
-              
+
                 MenuGeral();
             }
 
             else
             {
-                MenuCliente(clienteList, poupanca, corrente,cliente,esperaList);
+                MenuCliente(clienteList, poupanca, corrente, cliente, esperaList);
             }
         }
         static Cliente ValidarCliente(List<Cliente> clienteList)//ver se o cliente existe OK
@@ -60,8 +58,8 @@ namespace BancoMorangao
                 }
             }
             return null;
-        } 
-        static void MenuCliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente,Cliente cliente,List<Espera> esperaList)//cliente pode fazer OK
+        }
+        static void MenuCliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente, Cliente cliente, List<Espera> esperaList)//cliente pode fazer OK
         {
             int opc;
             do
@@ -93,7 +91,7 @@ namespace BancoMorangao
                             }
                             else
                             {
-                               // ValidarCliente(clienteList);
+                                // ValidarCliente(clienteList);
                                 for (int i = 0; i < clienteList.Count; i++)
                                 {
                                     Cliente cliente1 = clienteList[i];
@@ -119,16 +117,9 @@ namespace BancoMorangao
                     case 2:
                         Console.Write("Informe seu nome: ");
                         string nome = Console.ReadLine();
-                        Espera cliente2 = StatusConta(esperaList,nome);
-                        if (cliente2 == null)
-                        {
-                            Console.Write("Você ainda não solicitou nenhuma conta!");
-                        }
-                        else
-                        {
-                            Console.Write("Status: " + cliente2.descricao + " Data Solicitação: " + cliente2.dataPedido.ToString("dd/MM/yyyy"));
-                        }
-
+                        Espera cliente2 = StatusConta(esperaList, nome);
+                        if (cliente2 == null) Console.Write("Você ainda não solicitou nenhuma conta!");
+                        else Console.Write("Status: " + cliente2.descricao + " Data Solicitação: " + cliente2.dataPedido.ToString("dd/MM/yyyy"));
                         break;
 
                     case 3:
@@ -204,37 +195,35 @@ namespace BancoMorangao
             MenuGeral();
 
         }
-    
-        static void CadastrarCliente(List<Espera> analise,List<Cliente>clienteList)//cadastro meu cliente OK
+        static void CadastrarCliente(List<Espera> analise, List<Cliente> clienteList)//cadastro meu cliente OK
         {
             Console.WriteLine("\nCadastramento iniciado: ");
 
             Cliente cliente = new Cliente();
-            Pessoa pessoa=new Pessoa();
-           pessoa = pessoa.CadastrarPessoa();
+            cliente.CadastrarPessoa();
 
 
             Console.Write("Deseja solicitar abertura de conta?\n1-SIM\n2-NÃO ");
             int abre = int.Parse(Console.ReadLine());
             if (abre == 1)
             {
-                SolicitacaoConta(cliente, analise,clienteList);
+                SolicitacaoConta(cliente, analise, clienteList);
             }
             else
             {
                 Console.WriteLine("Solicitação não realizada!");
             }
-          
 
-            
+
+
         }
-        static void SolicitacaoConta(Cliente cliente, List<Espera> analise,List<Cliente> clienteList)//cliente pede abertura da conta e é adicionado na lista de espera OK
+        static void SolicitacaoConta(Cliente cliente, List<Espera> analise, List<Cliente> clienteList)//cliente pede abertura da conta e é adicionado na lista de espera OK
         {
-            Cliente cliente = SolicitarAberturaConta();
+            cliente.SolicitarAberturaConta();
             Espera espera = new Espera(cliente);
             analise.Add(espera);
             clienteList.Add(cliente);
-            
+
         }
         static void CadastrarFuncionario(List<Funcionario> funcionarioList)//cadastro funcionário  OK
         {
@@ -263,7 +252,7 @@ namespace BancoMorangao
             return null;
 
         }
-        static void MenuFuncionario(List<Cliente> clienteList, List<Funcionario> funcionarioList,List<Espera>analiseList,List<Cliente>aprovadoList)
+        static void MenuFuncionario(List<Cliente> clienteList, List<Funcionario> funcionarioList, List<Espera> analiseList, List<Cliente> aprovadoList)
         {
             int opc;
             do
@@ -327,7 +316,7 @@ namespace BancoMorangao
                                 if (funcionario.Cargo.CompareTo("GERENTE") == 0)//é gerente e pode validar meu cliente, pode analisar e pode aprovar a conta.
                                 {
                                     funcionario.AnalisarSolicitacaoAberturaConta(cliente);
-                                    funcionario.AprovarAberturaConta(analiseList,aprovadoList);
+                                    funcionario.AprovarAberturaConta(aprovadoList, cliente);
                                     Console.Write("Verificação realizada!");
                                 }
                                 else//cliente normal, pode validar meu cliente,pode analisar a conta apenas.
@@ -364,13 +353,13 @@ namespace BancoMorangao
             } while (opc != 0);
 
         }
-      /*  static void ImprimeAprovados(List<Cliente> aprovados)
-        {
-            foreach (var item in aprovados)
-            {
-                Console.WriteLine(var item);
-            }
-        }*/
+        /*  static void ImprimeAprovados(List<Cliente> aprovados)
+          {
+              foreach (var item in aprovados)
+              {
+                  Console.WriteLine(var item);
+              }
+          }*/
         static void Main(string[] args)
         {
             Cliente cliente = new Cliente();
@@ -384,32 +373,34 @@ namespace BancoMorangao
             List<Cliente> aprovadoList = new List<Cliente>();
 
             int sou;
-            do {
+            do
+            {
                 sou = MenuGeral();
 
-                switch (sou) { 
+                switch (sou)
+                {
 
-               case 0: 
-                    Console.Write("Saindo");
-                    Thread.Sleep(200);
-                    Console.Write(" .");
-                    Thread.Sleep(200);
-                    Console.Write(" .");
-                    Thread.Sleep(200);
-                    Console.Write(" .");
-                  
-                break;
+                    case 0:
+                        Console.Write("Saindo");
+                        Thread.Sleep(200);
+                        Console.Write(" .");
+                        Thread.Sleep(200);
+                        Console.Write(" .");
+                        Thread.Sleep(200);
+                        Console.Write(" .");
+
+                        break;
                     case 1: //já sou cliente
-                
-                    Cliente(clienteList, poupanca, corrente, esperaList);
+
+                        Cliente(clienteList, poupanca, corrente, esperaList);
                         break;
 
-                       case 2://quero ser cliente
-                    
-                        CadastrarCliente(esperaList,clienteList);
+                    case 2://quero ser cliente
+
+                        CadastrarCliente(esperaList, clienteList);
                         break;
                     case 3://sou funcionário
-                    
+
                         if (ValidarFuncionario(funcionarioList) == null)
                         {
                             Console.Write("\nFuncionario não existe");
@@ -420,7 +411,7 @@ namespace BancoMorangao
                             if (cadResp == 1)
                             {
                                 CadastrarFuncionario(funcionarioList);
-                                MenuFuncionario(clienteList, funcionarioList, esperaList,aprovadoList);
+                                MenuFuncionario(clienteList, funcionarioList, esperaList, aprovadoList);
                             }
                             else
                             {
@@ -430,7 +421,7 @@ namespace BancoMorangao
                         }
                         else
                         {
-                            MenuFuncionario(clienteList, funcionarioList, esperaList,aprovadoList);
+                            MenuFuncionario(clienteList, funcionarioList, esperaList, aprovadoList);
                         }
                         break;
                     default:
