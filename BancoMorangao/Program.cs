@@ -30,7 +30,7 @@ namespace BancoMorangao
             }
             return null;
         }
-        static void Cliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente, List<Espera> esperaList)//Verifico se meu sliente e exite se não, volto pro menu geral OK
+        static void Cliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente, List<Espera> esperaList,Funcionario funcionario)//Verifico se meu sliente e exite se não, volto pro menu geral OK
         {
             Cliente cliente = ValidarCliente(clienteList);
             if (cliente == null)
@@ -42,7 +42,7 @@ namespace BancoMorangao
 
             else
             {
-                MenuCliente(clienteList, poupanca, corrente, cliente, esperaList);
+                MenuCliente(clienteList, poupanca, corrente, cliente, esperaList,funcionario);
             }
         }
         static Cliente ValidarCliente(List<Cliente> clienteList)//ver se o cliente existe OK
@@ -59,7 +59,7 @@ namespace BancoMorangao
             }
             return null;
         }
-        static void MenuCliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente, Cliente cliente, List<Espera> esperaList)//cliente pode fazer OK
+        static void MenuCliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente, Cliente cliente, List<Espera> esperaList,Funcionario funcionario)//cliente pode fazer OK
         {
             int opc;
             do
@@ -91,7 +91,7 @@ namespace BancoMorangao
                             }
                             else
                             {
-                                // ValidarCliente(clienteList);
+                                ValidarCliente(clienteList);
                                 for (int i = 0; i < clienteList.Count; i++)
                                 {
                                     Cliente cliente1 = clienteList[i];
@@ -125,6 +125,10 @@ namespace BancoMorangao
                         else
                         {
                             Console.Write("Status: " + cliente2.descricao + " Data Solicitação: " + cliente2.dataPedido.ToString("dd/MM/yyyy"));
+                            if (cliente2.descricao == "Aprovado")
+                            {
+                               int tipoConta = funcionario.AnalisarSolicitacaoAberturaConta(cliente2);
+                            }
                         }
                         break;
 
@@ -286,18 +290,18 @@ namespace BancoMorangao
                         int op = int.Parse(Console.ReadLine());
                         if (op == 1)
                         {
+                         
                             if (funcionarioList.Count == 0)
                             {
                                 Console.Write("Não há funcionários cadastrados");
                             }
                             else
                             {
-                                for (int i = 0; i < funcionarioList.Count; i++)
-                                {
-                                    Funcionario funcionario1 = funcionarioList[i];
+                                Funcionario funcionario1 = ValidarFuncionario(funcionarioList);
+                               
                                     funcionario1.ImprimirPessoa();
                                     funcionario1.ImprimirFuncionario();
-                                }
+                                
                             }
                         }
                         else
@@ -391,7 +395,7 @@ namespace BancoMorangao
 
                 if (sou == 1) //já sou cliente
                 {
-                    Cliente(clienteList, poupanca, corrente, esperaList);
+                    Cliente(clienteList, poupanca, corrente, esperaList,funcionario);
                 }
 
                 else if (sou == 2)
@@ -418,7 +422,7 @@ namespace BancoMorangao
                         else
                         {
                             Console.Write("\nFim do atendimento!");
-                            Environment.Exit(0);
+                           
                         }
                     }
                     else
