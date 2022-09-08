@@ -118,8 +118,14 @@ namespace BancoMorangao
                         Console.Write("Informe seu nome: ");
                         string nome = Console.ReadLine();
                         Espera cliente2 = StatusConta(esperaList, nome);
-                        if (cliente2 == null) Console.Write("Você ainda não solicitou nenhuma conta!");
-                        else Console.Write("Status: " + cliente2.descricao + " Data Solicitação: " + cliente2.dataPedido.ToString("dd/MM/yyyy"));
+                        if (cliente2 == null)
+                        {
+                            Console.Write("Você ainda não solicitou nenhuma conta!");
+                        }
+                        else
+                        {
+                            Console.Write("Status: " + cliente2.descricao + " Data Solicitação: " + cliente2.dataPedido.ToString("dd/MM/yyyy"));
+                        }
                         break;
 
                     case 3:
@@ -353,13 +359,7 @@ namespace BancoMorangao
             } while (opc != 0);
 
         }
-        /*  static void ImprimeAprovados(List<Cliente> aprovados)
-          {
-              foreach (var item in aprovados)
-              {
-                  Console.WriteLine(var item);
-              }
-          }*/
+       
         static void Main(string[] args)
         {
             Cliente cliente = new Cliente();
@@ -377,58 +377,61 @@ namespace BancoMorangao
             {
                 sou = MenuGeral();
 
-                switch (sou)
+
+                if (sou == 0)
                 {
+                    Console.Write("Saindo");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                }
 
-                    case 0:
-                        Console.Write("Saindo");
-                        Thread.Sleep(200);
-                        Console.Write(" .");
-                        Thread.Sleep(200);
-                        Console.Write(" .");
-                        Thread.Sleep(200);
-                        Console.Write(" .");
+                if (sou == 1) //já sou cliente
+                {
+                    Cliente(clienteList, poupanca, corrente, esperaList);
+                }
 
-                        break;
-                    case 1: //já sou cliente
+                else if (sou == 2)
+                { //quero ser cliente
 
-                        Cliente(clienteList, poupanca, corrente, esperaList);
-                        break;
+                    CadastrarCliente(esperaList, clienteList);
+                }
 
-                    case 2://quero ser cliente
+                else if (sou == 3)//sou funcionário
 
-                        CadastrarCliente(esperaList, clienteList);
-                        break;
-                    case 3://sou funcionário
 
-                        if (ValidarFuncionario(funcionarioList) == null)
+                    if (ValidarFuncionario(funcionarioList) == null)
+                    {
+                        Console.Write("\nFuncionario não existe");
+                        // Environment.Exit(0);
+                        // MenuCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
+                        Console.Write("\nDeseja se cadastrar? 1-SIM 2-NÃO");
+                        int cadResp = int.Parse(Console.ReadLine());
+                        if (cadResp == 1)
                         {
-                            Console.Write("\nFuncionario não existe");
-                            // Environment.Exit(0);
-                            // MenuCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
-                            Console.Write("\nDeseja se cadastrar? 1-SIM 2-NÃO");
-                            int cadResp = int.Parse(Console.ReadLine());
-                            if (cadResp == 1)
-                            {
-                                CadastrarFuncionario(funcionarioList);
-                                MenuFuncionario(clienteList, funcionarioList, esperaList, aprovadoList);
-                            }
-                            else
-                            {
-                                Console.Write("\nFim do atendimento!");
-                                Environment.Exit(0);
-                            }
+                            CadastrarFuncionario(funcionarioList);
+                            MenuFuncionario(clienteList, funcionarioList, esperaList, aprovadoList);
                         }
                         else
                         {
-                            MenuFuncionario(clienteList, funcionarioList, esperaList, aprovadoList);
+                            Console.Write("\nFim do atendimento!");
+                            Environment.Exit(0);
                         }
-                        break;
-                    default:
-                        Console.WriteLine("Opção inválida!");
-                        break;
+                    }
+                    else
+                    {
+                        MenuFuncionario(clienteList, funcionarioList, esperaList, aprovadoList);
+                    }
+
+                else
+                {
+                    Console.WriteLine("Opção inválida!");
                 }
             } while (sou != 0);
         }
     }
 }
+

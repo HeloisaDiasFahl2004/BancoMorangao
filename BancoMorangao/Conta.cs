@@ -10,7 +10,7 @@ namespace BancoMorangao
     {
         public int TipoConta { get; set; }// 1/2/3
         public int NumeroConta { get; set; }
-      
+        public Agencia Agencia { get; set; }
         public Conta()
         {
 

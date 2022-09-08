@@ -49,7 +49,7 @@ namespace BancoMorangao
                 //tipo universitario
                 Console.Write("Conta universitária");
                 tipoConta = 1;
-                Console.Write("\nTipo de Conta: " + tipoConta);
+                Console.Write("\nTipo de Conta: " + tipoConta + "\n");
 
                 return tipoConta;
             }
@@ -57,14 +57,14 @@ namespace BancoMorangao
             {
                 Console.Write("Conta normal");
                 tipoConta = 2;
-                Console.Write("\nTipo de Conta: " + tipoConta);
+                Console.Write("\nTipo de Conta: " + tipoConta+"\n");
                 return tipoConta;
             }
             else
             {
                 Console.Write("Conta VIP");
                 tipoConta = 3;
-                Console.Write("\nTipo de Conta: " + tipoConta);
+                Console.Write("\nTipo de Conta: " + tipoConta + "\n");
                 return tipoConta;
             }
 
