@@ -12,29 +12,37 @@ namespace BancoMorangao
     {
         public double Renda { get; set; }
         public string Estudante { get; set; }
-        public int tipoConta { get; set; }
-      
-        public Conta conta { get; set; }
+        public int TipoConta { get; set; }
+
+        public Conta Conta { get; set; }
+        public Agencia Agencia { get; set; }
         public Cliente()//já vem da classe mãe
         {
+
+        }
+        public Cliente(double Renda, string Estudante)
+        {
+            this.Renda = Renda;
+            this.Estudante = Estudante;
 
         }
         public void ImprimirCliente()
         {
             Console.Write("\nRenda: " + this.Renda);
-            Console.Write("\nTipo Conta: " + this.tipoConta);
+            Console.Write("\nTipo Conta: " + this.TipoConta);
 
         }
-        public void SolicitarAberturaConta()
+        public Cliente SolicitarAberturaConta()
         {
+
             Console.Write("Renda: ");
-            this.Renda = double.Parse(Console.ReadLine());
+            Renda = double.Parse(Console.ReadLine());
             Console.Write("Estudante(SIM/NÃO) ");
-            this.Estudante = Console.ReadLine().ToUpper();
+            Estudante = Console.ReadLine().ToUpper();
             Console.WriteLine("O gerente irá definir o tipo ideal de conta para você. ");
-         //   Console.Write("Perfil(1-Univesritário\n2-Normal\n3-Vip): ");
-         //   this.Perfil = Console.ReadLine();
-          
+            //   Console.Write("Perfil(1-Univesritário\n2-Normal\n3-Vip): ");
+            //   this.Perfil = Console.ReadLine();
+
             //bool aceitaConta = AbreConta(this.Renda,this.Estudante);
             //if (aceitaConta)
             //{
@@ -44,7 +52,8 @@ namespace BancoMorangao
             //    Console.Write("\nSolicitação de abertura de conta encaminhada!");
             //}
             Console.Write("Solicitação encaminhada!");
-           
+            return new Cliente(Renda, Estudante);
+
 
         }
         /*public bool SolicitarEmprestimo(Emprestimo emprestimo)

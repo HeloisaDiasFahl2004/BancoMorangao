@@ -28,7 +28,7 @@ namespace BancoMorangao
             Cpf = cpf;
             Rg = rg;
         }
-        public void CadastrarPessoa()
+        public Pessoa CadastrarPessoa()
         {
         
             Console.Write("Informe seu nome: ");
@@ -43,6 +43,7 @@ namespace BancoMorangao
             this.Cpf = long.Parse(Console.ReadLine());
             Console.Write("Informe seu RG: ");
             this.Rg = long.Parse(Console.ReadLine());
+            return new Pessoa(Nome,DataNascimento,Telefone,Cpf,Rg);
            
         }
         public void ImprimirPessoa()

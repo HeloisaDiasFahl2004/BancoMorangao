@@ -8,7 +8,6 @@ namespace BancoMorangao
 {
     internal class Agencia
     {
-       
         public int NumeroAgencia { get; set; }
        
         public Agencia()

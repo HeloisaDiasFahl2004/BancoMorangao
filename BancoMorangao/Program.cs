@@ -9,30 +9,42 @@ namespace BancoMorangao
 {
     internal class Program
     {
-        static void Cliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente)//Verifico se meu sliente e exite se não, volto pro menu geral OK
+        static Espera StatusConta(List<Espera> espera,string nome)
+        {
+            foreach(Espera esperaItem in espera)
+            {
+                if (esperaItem.cliente.Nome == nome)
+                {
+                    return esperaItem;
+                }
+            }
+            return null;
+        }
+        
+        static Espera EsperaCliente(List<Espera> espera)
+        {
+            foreach(Espera esperaItem in espera)
+            {
+                if(esperaItem != null)
+                {
+                    return esperaItem;
+                }
+            }
+            return null;
+        }
+        static void Cliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente,List<Espera> esperaList)//Verifico se meu sliente e exite se não, volto pro menu geral OK
         {
             Cliente cliente = ValidarCliente(clienteList);
             if (cliente == null)
             {
                 Console.Write("\nCliente não existe");
-                // Environment.Exit(0);
-                // MenuCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
-                //   Console.Write("\nDeseja se cadastrar? 1-SIM 2-NÃO");
-                // int cadResp = int.Parse(Console.ReadLine());
-                //  if (cadResp == 1)
-                //  {
-                ///  CadastrarCliente(analise);
-                // }
-                // else
-                //  {
-                // Console.Write("\nFim do atendimento!");
-                // Environment.Exit(0);
+              
                 MenuGeral();
             }
 
             else
             {
-                MenuCliente(clienteList, poupanca, corrente,cliente);
+                MenuCliente(clienteList, poupanca, corrente,cliente,esperaList);
             }
         }
         static Cliente ValidarCliente(List<Cliente> clienteList)//ver se o cliente existe OK
@@ -49,7 +61,7 @@ namespace BancoMorangao
             }
             return null;
         } 
-        static void MenuCliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente,Cliente cliente)//cliente pode fazer OK
+        static void MenuCliente(List<Cliente> clienteList, Poupanca poupanca, Corrente corrente,Cliente cliente,List<Espera> esperaList)//cliente pode fazer OK
         {
             int opc;
             do
@@ -81,7 +93,7 @@ namespace BancoMorangao
                             }
                             else
                             {
-                                ValidarCliente(clienteList);
+                               // ValidarCliente(clienteList);
                                 for (int i = 0; i < clienteList.Count; i++)
                                 {
                                     Cliente cliente1 = clienteList[i];
@@ -105,15 +117,16 @@ namespace BancoMorangao
                         break;
 
                     case 2:
-                        Espera andamento = funcionario.AnalisarSolicitacaoAberturaConta(cliente);
-
-                        if (andamento == null)
+                        Console.Write("Informe seu nome: ");
+                        string nome = Console.ReadLine();
+                        Espera cliente2 = StatusConta(esperaList,nome);
+                        if (cliente2 == null)
                         {
                             Console.Write("Você ainda não solicitou nenhuma conta!");
                         }
                         else
                         {
-                            Console.Write("Status: " + andamento.descricao + " Data Solicitação: " + andamento.dataPedido.ToString("dd/MM/yyyy"));
+                            Console.Write("Status: " + cliente2.descricao + " Data Solicitação: " + cliente2.dataPedido.ToString("dd/MM/yyyy"));
                         }
 
                         break;
@@ -191,30 +204,37 @@ namespace BancoMorangao
             MenuGeral();
 
         }
-        static List<Espera> CadastrarCliente(List<Espera> analise)//cadastro meu cliente OK
+    
+        static void CadastrarCliente(List<Espera> analise,List<Cliente>clienteList)//cadastro meu cliente OK
         {
             Console.WriteLine("\nCadastramento iniciado: ");
 
             Cliente cliente = new Cliente();
-            cliente.CadastrarPessoa();
+            Pessoa pessoa=new Pessoa();
+           pessoa = pessoa.CadastrarPessoa();
 
 
             Console.Write("Deseja solicitar abertura de conta?\n1-SIM\n2-NÃO ");
             int abre = int.Parse(Console.ReadLine());
             if (abre == 1)
             {
-                SolicitacaoConta(cliente, analise);
+                SolicitacaoConta(cliente, analise,clienteList);
             }
-            Console.WriteLine("Solicitação não realizada!");
+            else
+            {
+                Console.WriteLine("Solicitação não realizada!");
+            }
+          
 
-            return analise;
+            
         }
-        static List<Espera> SolicitacaoConta(Cliente cliente, List<Espera> analise)//cliente pede abertura da conta e é adicionado na lista de espera OK
+        static void SolicitacaoConta(Cliente cliente, List<Espera> analise,List<Cliente> clienteList)//cliente pede abertura da conta e é adicionado na lista de espera OK
         {
-            cliente.SolicitarAberturaConta();
+            Cliente cliente = SolicitarAberturaConta();
             Espera espera = new Espera(cliente);
             analise.Add(espera);
-            return analise;
+            clienteList.Add(cliente);
+            
         }
         static void CadastrarFuncionario(List<Funcionario> funcionarioList)//cadastro funcionário  OK
         {
@@ -243,13 +263,13 @@ namespace BancoMorangao
             return null;
 
         }
-        static void MenuFuncionario(List<Cliente> clienteList, List<Funcionario> funcionarioList,List<Espera>analiseList)
+        static void MenuFuncionario(List<Cliente> clienteList, List<Funcionario> funcionarioList,List<Espera>analiseList,List<Cliente>aprovadoList)
         {
             int opc;
             do
             {
                 Console.Write("\n\t>>> Menu Funcionário <<<\t");
-                Console.WriteLine("\nO-Sair\n1-Cadastrar Funcionário\n2-Imprimir Funcionário\n3-Verificar/Aprovar Conta\n4-Verificar/Analisar Empréstimo");
+                Console.WriteLine("\nO-Sair\n1-Cadastrar Funcionário\n2-Imprimir Funcionário\n3-Verificar/Aprovar Conta\n");
                 Console.Write("Escolha uma opção: ");
                 opc = int.Parse(Console.ReadLine());
                 switch (opc)
@@ -298,7 +318,7 @@ namespace BancoMorangao
                         }
                         break;
                     case 3:
-                        Cliente cliente = ValidarCliente(clienteList);
+                        Espera cliente = EsperaCliente(analiseList);
                         if (cliente != null)//tem solicitações
                         {
                             Funcionario funcionario = ValidarFuncionario(funcionarioList);
@@ -307,7 +327,7 @@ namespace BancoMorangao
                                 if (funcionario.Cargo.CompareTo("GERENTE") == 0)//é gerente e pode validar meu cliente, pode analisar e pode aprovar a conta.
                                 {
                                     funcionario.AnalisarSolicitacaoAberturaConta(cliente);
-                                    funcionario.AprovarAberturaConta(analiseList);
+                                    funcionario.AprovarAberturaConta(analiseList,aprovadoList);
                                     Console.Write("Verificação realizada!");
                                 }
                                 else//cliente normal, pode validar meu cliente,pode analisar a conta apenas.
@@ -344,6 +364,13 @@ namespace BancoMorangao
             } while (opc != 0);
 
         }
+      /*  static void ImprimeAprovados(List<Cliente> aprovados)
+        {
+            foreach (var item in aprovados)
+            {
+                Console.WriteLine(var item);
+            }
+        }*/
         static void Main(string[] args)
         {
             Cliente cliente = new Cliente();
@@ -354,60 +381,63 @@ namespace BancoMorangao
             List<Cliente> clienteList = new List<Cliente>();
             List<Funcionario> funcionarioList = new List<Funcionario>();
             List<Espera> esperaList = new List<Espera>();
+            List<Cliente> aprovadoList = new List<Cliente>();
 
-            int sou = MenuGeral();
+            int sou;
+            do {
+                sou = MenuGeral();
 
-            if (sou == 0)
-            {
-                Console.Write("Saindo");
-                Thread.Sleep(200);
-                Console.Write(" .");
-                Thread.Sleep(200);
-                Console.Write(" .");
-                Thread.Sleep(200);
-                Console.Write(" .");
-                return;
-            }
-            else if (sou == 1)//já sou cliente
-            {
-                Cliente(clienteList,poupanca,corrente);
-            }
-            else
-            {
-                if (sou == 2)//quero ser cliente
-                {
-                    CadastrarCliente(esperaList);
-                }
-                else if (sou == 3)//sou funcionário
-                {
-                    if (ValidarFuncionario(funcionarioList) == null)
-                    {
-                        Console.Write("\nFuncionario não existe");
-                        // Environment.Exit(0);
-                        // MenuCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
-                        Console.Write("\nDeseja se cadastrar? 1-SIM 2-NÃO");
-                        int cadResp = int.Parse(Console.ReadLine());
-                        if (cadResp == 1)
+                switch (sou) { 
+
+               case 0: 
+                    Console.Write("Saindo");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                    Thread.Sleep(200);
+                    Console.Write(" .");
+                  
+                break;
+                    case 1: //já sou cliente
+                
+                    Cliente(clienteList, poupanca, corrente, esperaList);
+                        break;
+
+                       case 2://quero ser cliente
+                    
+                        CadastrarCliente(esperaList,clienteList);
+                        break;
+                    case 3://sou funcionário
+                    
+                        if (ValidarFuncionario(funcionarioList) == null)
                         {
-                            CadastrarFuncionario(funcionarioList);
-                            MenuFuncionario(clienteList, funcionarioList,esperaList);
+                            Console.Write("\nFuncionario não existe");
+                            // Environment.Exit(0);
+                            // MenuCliente(abertura, emprestimo, funcionario, cartao, poupanca, corrente, clienteList, funcionarioList);
+                            Console.Write("\nDeseja se cadastrar? 1-SIM 2-NÃO");
+                            int cadResp = int.Parse(Console.ReadLine());
+                            if (cadResp == 1)
+                            {
+                                CadastrarFuncionario(funcionarioList);
+                                MenuFuncionario(clienteList, funcionarioList, esperaList,aprovadoList);
+                            }
+                            else
+                            {
+                                Console.Write("\nFim do atendimento!");
+                                Environment.Exit(0);
+                            }
                         }
                         else
                         {
-                            Console.Write("\nFim do atendimento!");
-                            Environment.Exit(0);
+                            MenuFuncionario(clienteList, funcionarioList, esperaList,aprovadoList);
                         }
-                    }
-                    else
-                    {
-                        MenuFuncionario(clienteList, funcionarioList,esperaList);
-                    }
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida!");
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine("Opção inválida!");
-                }
-            }
+            } while (sou != 0);
         }
     }
 }
